@@ -1,16 +1,25 @@
+variable "region" {
+  type        = "string"
+  description = "AWS Region"
+  default     = "us-west-1"
+}
+
 variable "namespace" {
   type        = "string"
   description = "Namespace (e.g. `eg` or `cp`)"
+  default     = "eg"
 }
 
 variable "stage" {
   type        = "string"
   description = "Stage (e.g. `prod`, `dev`, `staging`)"
+  default     = "dev"
 }
 
 variable "name" {
   type        = "string"
   description = "Name  (e.g. `app`)"
+  default     = "test"
 }
 
 variable "delimiter" {
@@ -40,6 +49,7 @@ variable "enabled" {
 variable "vpc_id" {
   type        = "string"
   description = "The ID of the VPC to which the Virtual Private Gateway will be attached"
+  default     = "vpc-xxxxxxxx"
 }
 
 variable "vpn_gateway_amazon_side_asn" {
@@ -55,12 +65,13 @@ variable "customer_gateway_bgp_asn" {
 variable "customer_gateway_ip_address" {
   type        = "string"
   description = "The IP address of the gateway's Internet-routable external interface"
+  default     = "172.0.0.1"
 }
 
 variable "route_table_ids" {
   type        = "list"
   description = "The IDs of the route tables for which routes from the Virtual Private Gateway will be propagated"
-  default     = []
+  default     = ["rtb-xxxxxxxx", "rtb-yyyyyyyy", "rtb-zzzzzzzz"]
 }
 
 variable "vpn_connection_static_routes_only" {
@@ -72,7 +83,7 @@ variable "vpn_connection_static_routes_only" {
 variable "vpn_connection_static_routes_destinations" {
   type        = "list"
   description = "List of CIDR blocks to be used as destination for static routes. Routes to destinations will be propagated to the route tables defined in `route_table_ids`"
-  default     = []
+  default     = ["10.80.1.0/24"]
 }
 
 variable "vpn_connection_tunnel1_inside_cidr" {

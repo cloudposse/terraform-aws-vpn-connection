@@ -80,23 +80,30 @@ description: |-
   Terraform module to provision a [site-to-site](https://docs.aws.amazon.com/vpn/latest/s2svpn/VPC_VPN.html) [VPN connection](https://docs.aws.amazon.com/vpc/latest/userguide/vpn-connections.html)
   between a VPC and on-premises network
 
-  The module:
+  The module does the following:
 
-  - Creates a Customer Gateway (CGW) pointing to the provided firewall IP on the on-premises network
   - Creates a Virtual Private Gateway (VPG) and attaches it to the VPC
-  - Creates a Site-to-Site Virtual Private Network (VPN) connection and assign it to the VPG and CGW
-  - Adds the routes for the provided IP ranges you will need to access on the network and select the CGW as its target
+  - Creates a Customer Gateway (CGW) pointing to the provided IP address of the Internet-routable external interface on the on-premises network
+  - Creates a Site-to-Site Virtual Private Network (VPN) connection and assigns it to the VPG and CGW
+  - Requests automatic route propagation between the VPG and the provided route tables in the VPC
+  - If the VPN connection is configured to use static routes, provisions a static route between the VPN connection and the CGW
 
 # How to use this project
 usage: |-
   ```hcl
-  module "terraform-aws-vpn-connection" {
-    source                   = "git::https://github.com/cloudposse/terraform-aws-vpn-connection.git?ref=master"
-    enabled                  = "${var.enabled}"
-    name                     = "${var.name}"
-    stage                    = "${var.stage}"
-    namespace                = "${var.namespace}"
-  }
+    module "vpn_connection" {
+      source                                    = "git::https://github.com/cloudposse/terraform-aws-vpn-connection.git?ref=master"
+      namespace                                 = "eg"
+      stage                                     = "dev"
+      name                                      = "test"
+      vpc_id                                    = "vpc-xxxxxxxx"
+      vpn_gateway_amazon_side_asn               = 64512
+      customer_gateway_bgp_asn                  = 65000
+      customer_gateway_ip_address               = "172.0.0.1"
+      route_table_ids                           = ["rtb-xxxxxxxx", "rtb-yyyyyyyy", "rtb-zzzzzzzz"]
+      vpn_connection_static_routes_only         = "true"
+      vpn_connection_static_routes_destinations = ["10.80.1.0/24"]
+    }
   ```
 
 include:
