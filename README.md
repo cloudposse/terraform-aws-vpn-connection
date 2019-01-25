@@ -7,7 +7,7 @@
 
 
 Terraform module to provision a [site-to-site](https://docs.aws.amazon.com/vpn/latest/s2svpn/VPC_VPN.html) [VPN connection](https://docs.aws.amazon.com/vpc/latest/userguide/vpn-connections.html)
-between a VPC and on-premises network
+between a VPC and an on-premises network.
 
 The module does the following:
 
