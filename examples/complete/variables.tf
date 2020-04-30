@@ -41,15 +41,14 @@ variable "tags" {
 }
 
 variable "enabled" {
-  type        = string
+  type        = bool
   description = "Set to `false` to prevent the module from creating any resources"
-  default     = "true"
+  default     = true
 }
 
 variable "vpc_id" {
   type        = string
   description = "The ID of the VPC to which the Virtual Private Gateway will be attached"
-  default     = "vpc-xxxxxxxx"
 }
 
 variable "vpn_gateway_amazon_side_asn" {
@@ -65,19 +64,17 @@ variable "customer_gateway_bgp_asn" {
 variable "customer_gateway_ip_address" {
   type        = string
   description = "The IP address of the gateway's Internet-routable external interface"
-  default     = "172.0.0.1"
 }
 
 variable "route_table_ids" {
   type        = list(string)
   description = "The IDs of the route tables for which routes from the Virtual Private Gateway will be propagated"
-  default     = ["rtb-xxxxxxxx", "rtb-yyyyyyyy", "rtb-zzzzzzzz"]
 }
 
 variable "vpn_connection_static_routes_only" {
-  type        = string
+  type        = bool
   description = "If set to `true`, the VPN connection will use static routes exclusively. Static routes must be used for devices that don't support BGP"
-  default     = "true"
+  default     = true
 }
 
 variable "vpn_connection_static_routes_destinations" {
