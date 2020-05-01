@@ -42,7 +42,7 @@
 
 [![Cloud Posse][logo]](https://cpco.io/homepage)
 
-# terraform-aws-vpn-connection [![Build Status](https://travis-ci.org/cloudposse/terraform-aws-vpn-connection.svg?branch=master)](https://travis-ci.org/cloudposse/terraform-aws-vpn-connection) [![Latest Release](https://img.shields.io/github/release/cloudposse/terraform-aws-vpn-connection.svg)](https://github.com/cloudposse/terraform-aws-vpn-connection/releases/latest) [![Slack Community](https://slack.cloudposse.com/badge.svg)](https://slack.cloudposse.com)
+# terraform-aws-vpn-connection [![Codefresh Build Status](https://g.codefresh.io/api/badges/pipeline/cloudposse/terraform-modules%2Fterraform-aws-vpc-peering-multi-account?type=cf-1)](https://g.codefresh.io/public/accounts/cloudposse/pipelines/5eab6e0418363a61f043294d) [![Build Status](https://travis-ci.org/cloudposse/terraform-aws-vpn-connection.svg?branch=master)](https://travis-ci.org/cloudposse/terraform-aws-vpn-connection) [![Latest Release](https://img.shields.io/github/release/cloudposse/terraform-aws-vpn-connection.svg)](https://github.com/cloudposse/terraform-aws-vpn-connection/releases/latest) [![Slack Community](https://slack.cloudposse.com/badge.svg)](https://slack.cloudposse.com)
 
 
 Terraform module to provision a [site-to-site](https://docs.aws.amazon.com/vpn/latest/s2svpn/VPC_VPN.html) [VPN connection](https://docs.aws.amazon.com/vpc/latest/userguide/vpn-connections.html)
