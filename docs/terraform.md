@@ -15,10 +15,10 @@
 | vpc_id | The ID of the VPC to which the Virtual Private Gateway will be attached | string | - | yes |
 | vpn_connection_static_routes_destinations | List of CIDR blocks to be used as destination for static routes. Routes to destinations will be propagated to the route tables defined in `route_table_ids` | list(string) | `<list>` | no |
 | vpn_connection_static_routes_only | If set to `true`, the VPN connection will use static routes exclusively. Static routes must be used for devices that don't support BGP | string | `true` | no |
-| vpn_connection_tunnel1_inside_cidr | The CIDR block of the inside IP addresses for the first VPN tunnel | string | `` | no |
-| vpn_connection_tunnel1_preshared_key | The preshared key of the first VPN tunnel. The preshared key must be between 8 and 64 characters in length and cannot start with zero. Allowed characters are alphanumeric characters, periods(.) and underscores(_) | string | `` | no |
-| vpn_connection_tunnel2_inside_cidr | The CIDR block of the inside IP addresses for the second VPN tunnel | string | `` | no |
-| vpn_connection_tunnel2_preshared_key | The preshared key of the second VPN tunnel. The preshared key must be between 8 and 64 characters in length and cannot start with zero. Allowed characters are alphanumeric characters, periods(.) and underscores(_) | string | `` | no |
+| vpn_connection_tunnel1_inside_cidr | The CIDR block of the inside IP addresses for the first VPN tunnel | string | `null` | no |
+| vpn_connection_tunnel1_preshared_key | The preshared key of the first VPN tunnel. The preshared key must be between 8 and 64 characters in length and cannot start with zero. Allowed characters are alphanumeric characters, periods(.) and underscores(_) | string | `null` | no |
+| vpn_connection_tunnel2_inside_cidr | The CIDR block of the inside IP addresses for the second VPN tunnel | string | `null` | no |
+| vpn_connection_tunnel2_preshared_key | The preshared key of the second VPN tunnel. The preshared key must be between 8 and 64 characters in length and cannot start with zero. Allowed characters are alphanumeric characters, periods(.) and underscores(_) | string | `null` | no |
 | vpn_gateway_amazon_side_asn | The Autonomous System Number (ASN) for the Amazon side of the VPN gateway. If you don't specify an ASN, the Virtual Private Gateway is created with the default ASN | string | `64512` | no |
 
 ## Outputs

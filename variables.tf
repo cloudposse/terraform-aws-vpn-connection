@@ -78,24 +78,24 @@ variable "vpn_connection_static_routes_destinations" {
 variable "vpn_connection_tunnel1_inside_cidr" {
   type        = string
   description = "The CIDR block of the inside IP addresses for the first VPN tunnel"
-  default     = ""
+  default     = null
 }
 
 variable "vpn_connection_tunnel2_inside_cidr" {
   type        = string
   description = "The CIDR block of the inside IP addresses for the second VPN tunnel"
-  default     = ""
+  default     = null
 }
 
 variable "vpn_connection_tunnel1_preshared_key" {
   type        = string
   description = "The preshared key of the first VPN tunnel. The preshared key must be between 8 and 64 characters in length and cannot start with zero. Allowed characters are alphanumeric characters, periods(.) and underscores(_)"
-  default     = ""
+  default     = null
 }
 
 variable "vpn_connection_tunnel2_preshared_key" {
   type        = string
   description = "The preshared key of the second VPN tunnel. The preshared key must be between 8 and 64 characters in length and cannot start with zero. Allowed characters are alphanumeric characters, periods(.) and underscores(_)"
-  default     = ""
+  default     = null
 }
 
