@@ -39,6 +39,9 @@ github_repo: cloudposse/terraform-aws-vpn-connection
 
 # Badges to display
 badges:
+  - name: "Codefresh Build Status"
+    image: "https://g.codefresh.io/api/badges/pipeline/cloudposse/terraform-modules%2Fterraform-aws-vpc-peering-multi-account?type=cf-1"
+    url: "https://g.codefresh.io/public/accounts/cloudposse/pipelines/5eab6e0418363a61f043294d"
   - name: "Build Status"
     image: "https://travis-ci.org/cloudposse/terraform-aws-vpn-connection.svg?branch=master"
     url: "https://travis-ci.org/cloudposse/terraform-aws-vpn-connection"
