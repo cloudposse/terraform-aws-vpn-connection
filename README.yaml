@@ -1,4 +1,3 @@
----
 #
 # This is the canonical configuration for the `README.md`
 # Run `make readme` to rebuild the `README.md`
@@ -6,7 +5,6 @@
 
 # Name of this project
 name: terraform-aws-vpn-connection
-
 # Tags of this project
 tags:
   - aws
@@ -23,25 +21,18 @@ tags:
   - customer-gateway
   - ip
   - ip-address
-
 # Categories of this project
 categories:
   - terraform-modules/networking
-
 # Logo for this project
 #logo: docs/logo.png
 
 # License of this project
 license: "APACHE2"
-
 # Canonical GitHub repo
 github_repo: cloudposse/terraform-aws-vpn-connection
-
 # Badges to display
 badges:
-  - name: "Codefresh Build Status"
-    image: "https://g.codefresh.io/api/badges/pipeline/cloudposse/terraform-modules%2Fterraform-aws-vpc-peering-multi-account?type=cf-1"
-    url: "https://g.codefresh.io/public/accounts/cloudposse/pipelines/5eab6e0418363a61f043294d"
   - name: "Build Status"
     image: "https://travis-ci.org/cloudposse/terraform-aws-vpn-connection.svg?branch=master"
     url: "https://travis-ci.org/cloudposse/terraform-aws-vpn-connection"
@@ -51,33 +42,25 @@ badges:
   - name: "Slack Community"
     image: "https://slack.cloudposse.com/badge.svg"
     url: "https://slack.cloudposse.com"
-
 related:
   - name: "terraform-aws-vpc"
     description: "Terraform module that defines a VPC with public/private subnets across multiple AZs with Internet Gateways"
     url: "https://github.com/cloudposse/terraform-aws-vpc"
-
   - name: "terraform-aws-vpc-peering"
     description: "Terraform module to create a peering connection between two VPCs"
     url: "https://github.com/cloudposse/terraform-aws-vpc-peering"
-
   - name: "terraform-aws-kops-vpc-peering"
     description: "Terraform module to create a peering connection between a backing services VPC and a VPC created by Kops"
     url: "https://github.com/cloudposse/terraform-aws-kops-vpc-peering"
-
   - name: "terraform-aws-dynamic-subnets"
     description: "Terraform module for public and private subnets provisioning in existing VPC"
     url: "https://github.com/cloudposse/terraform-aws-dynamic-subnets"
-
   - name: "terraform-aws-multi-az-subnets"
     description: "Terraform module for multi-AZ public and private subnets provisioning"
     url: "https://github.com/cloudposse/terraform-aws-multi-az-subnets"
-
   - name: "terraform-aws-named-subnets"
     description: "Terraform module for named subnets provisioning"
     url: "https://github.com/cloudposse/terraform-aws-named-subnets"
-
-
 # Short description of this project
 description: |-
   Terraform module to provision a [site-to-site](https://docs.aws.amazon.com/vpn/latest/s2svpn/VPC_VPN.html) [VPN connection](https://docs.aws.amazon.com/vpc/latest/userguide/vpn-connections.html)
@@ -90,7 +73,6 @@ description: |-
   - Creates a Site-to-Site Virtual Private Network (VPN) connection and assigns it to the VPG and CGW
   - Requests automatic route propagation between the VPG and the provided route tables in the VPC
   - If the VPN connection is configured to use static routes, provisions a static route between the VPN connection and the CGW
-
 # How to use this project
 usage: |-
   ```hcl
@@ -108,11 +90,9 @@ usage: |-
       vpn_connection_static_routes_destinations = ["10.80.1.0/24"]
     }
   ```
-
 include:
   - "docs/targets.md"
   - "docs/terraform.md"
-
 # Contributors to this project
 contributors:
   - name: "Erik Osterman"
