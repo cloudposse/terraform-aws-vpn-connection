@@ -1,16 +1,17 @@
+<!-- markdownlint-disable -->
 ## Requirements
 
 | Name | Version |
 |------|---------|
-| terraform | >= 0.12.0, < 0.14.0 |
-| aws | ~> 2.0 |
-| null | ~> 2.0 |
+| terraform | >= 0.12.0 |
+| aws | >= 2.0 |
+| null | >= 2.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| aws | ~> 2.0 |
+| aws | >= 2.0 |
 
 ## Inputs
 
@@ -50,3 +51,4 @@
 | vpn\_connection\_tunnel2\_vgw\_inside\_address | The RFC 6890 link-local address of the second VPN tunnel (Virtual Private Gateway side) |
 | vpn\_gateway\_id | Virtual Private Gateway ID |
 
+<!-- markdownlint-restore -->
