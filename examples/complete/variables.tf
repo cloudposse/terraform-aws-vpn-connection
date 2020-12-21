@@ -4,48 +4,6 @@ variable "region" {
   default     = "us-west-1"
 }
 
-variable "namespace" {
-  type        = string
-  description = "Namespace (e.g. `eg` or `cp`)"
-  default     = "eg"
-}
-
-variable "stage" {
-  type        = string
-  description = "Stage (e.g. `prod`, `dev`, `staging`)"
-  default     = "dev"
-}
-
-variable "name" {
-  type        = string
-  description = "Name  (e.g. `app`)"
-  default     = "test"
-}
-
-variable "delimiter" {
-  type        = string
-  default     = "-"
-  description = "Delimiter to be used between `namespace`, `stage`, `name` and `attributes`"
-}
-
-variable "attributes" {
-  type        = list(string)
-  default     = []
-  description = "Additional attributes (e.g. `1`)"
-}
-
-variable "tags" {
-  type        = map(string)
-  default     = {}
-  description = "Additional tags (e.g. `{ BusinessUnit = \"XYZ\" }`"
-}
-
-variable "enabled" {
-  type        = bool
-  description = "Set to `false` to prevent the module from creating any resources"
-  default     = true
-}
-
 variable "vpc_id" {
   type        = string
   description = "The ID of the VPC to which the Virtual Private Gateway will be attached"

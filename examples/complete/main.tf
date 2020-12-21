@@ -4,13 +4,6 @@ provider "aws" {
 
 module "vpn_connection" {
   source                                    = "../../"
-  enabled                                   = var.enabled
-  namespace                                 = var.namespace
-  stage                                     = var.stage
-  name                                      = var.name
-  delimiter                                 = var.delimiter
-  attributes                                = var.attributes
-  tags                                      = var.tags
   vpc_id                                    = var.vpc_id
   vpn_gateway_amazon_side_asn               = var.vpn_gateway_amazon_side_asn
   customer_gateway_bgp_asn                  = var.customer_gateway_bgp_asn
@@ -22,4 +15,6 @@ module "vpn_connection" {
   vpn_connection_tunnel2_inside_cidr        = var.vpn_connection_tunnel2_inside_cidr
   vpn_connection_tunnel1_preshared_key      = var.vpn_connection_tunnel1_preshared_key
   vpn_connection_tunnel2_preshared_key      = var.vpn_connection_tunnel2_preshared_key
+
+  context = module.this.context
 }
