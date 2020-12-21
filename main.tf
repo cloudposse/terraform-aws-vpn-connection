@@ -1,6 +1,10 @@
+locals {
+  enabled = module.this.enabled
+}
+
 # https://www.terraform.io/docs/providers/aws/r/vpn_gateway.html
 resource "aws_vpn_gateway" "default" {
-  count           = module.this.enabled ? 1 : 0
+  count           = local.enabled ? 1 : 0
   vpc_id          = var.vpc_id
   amazon_side_asn = var.vpn_gateway_amazon_side_asn
   tags            = module.this.tags
@@ -8,7 +12,7 @@ resource "aws_vpn_gateway" "default" {
 
 # https://www.terraform.io/docs/providers/aws/r/customer_gateway.html
 resource "aws_customer_gateway" "default" {
-  count      = module.this.enabled ? 1 : 0
+  count      = local.enabled ? 1 : 0
   bgp_asn    = var.customer_gateway_bgp_asn
   ip_address = var.customer_gateway_ip_address
   type       = "ipsec.1"
@@ -17,7 +21,7 @@ resource "aws_customer_gateway" "default" {
 
 # https://www.terraform.io/docs/providers/aws/r/vpn_connection.html
 resource "aws_vpn_connection" "default" {
-  count                 = module.this.enabled ? 1 : 0
+  count                 = local.enabled ? 1 : 0
   vpn_gateway_id        = join("", aws_vpn_gateway.default.*.id)
   customer_gateway_id   = join("", aws_customer_gateway.default.*.id)
   type                  = "ipsec.1"
@@ -31,14 +35,14 @@ resource "aws_vpn_connection" "default" {
 
 # https://www.terraform.io/docs/providers/aws/r/vpn_gateway_route_propagation.html
 resource "aws_vpn_gateway_route_propagation" "default" {
-  count          = module.this.enabled ? length(var.route_table_ids) : 0
+  count          = local.enabled ? length(var.route_table_ids) : 0
   vpn_gateway_id = join("", aws_vpn_gateway.default.*.id)
   route_table_id = element(var.route_table_ids, count.index)
 }
 
 # https://www.terraform.io/docs/providers/aws/r/vpn_connection_route.html
 resource "aws_vpn_connection_route" "default" {
-  count                  = module.this.enabled && var.vpn_connection_static_routes_only == "true" ? length(var.vpn_connection_static_routes_destinations) : 0
+  count                  = local.enabled && var.vpn_connection_static_routes_only == "true" ? length(var.vpn_connection_static_routes_destinations) : 0
   vpn_connection_id      = join("", aws_vpn_connection.default.*.id)
   destination_cidr_block = element(var.vpn_connection_static_routes_destinations, count.index)
 }
