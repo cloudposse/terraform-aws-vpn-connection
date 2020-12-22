@@ -1,16 +1,5 @@
-module "label" {
-  source     = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.17.0"
-  enabled    = var.enabled
-  namespace  = var.namespace
-  stage      = var.stage
-  name       = var.name
-  delimiter  = var.delimiter
-  attributes = var.attributes
-  tags       = var.tags
-}
-
 locals {
-  enabled = var.enabled == "true"
+  enabled = module.this.enabled
 }
 
 # https://www.terraform.io/docs/providers/aws/r/vpn_gateway.html
@@ -18,7 +7,7 @@ resource "aws_vpn_gateway" "default" {
   count           = local.enabled ? 1 : 0
   vpc_id          = var.vpc_id
   amazon_side_asn = var.vpn_gateway_amazon_side_asn
-  tags            = module.label.tags
+  tags            = module.this.tags
 }
 
 # https://www.terraform.io/docs/providers/aws/r/customer_gateway.html
@@ -27,7 +16,7 @@ resource "aws_customer_gateway" "default" {
   bgp_asn    = var.customer_gateway_bgp_asn
   ip_address = var.customer_gateway_ip_address
   type       = "ipsec.1"
-  tags       = module.label.tags
+  tags       = module.this.tags
 }
 
 # https://www.terraform.io/docs/providers/aws/r/vpn_connection.html
@@ -41,7 +30,7 @@ resource "aws_vpn_connection" "default" {
   tunnel2_inside_cidr   = var.vpn_connection_tunnel2_inside_cidr
   tunnel1_preshared_key = var.vpn_connection_tunnel1_preshared_key
   tunnel2_preshared_key = var.vpn_connection_tunnel2_preshared_key
-  tags                  = module.label.tags
+  tags                  = module.this.tags
 }
 
 # https://www.terraform.io/docs/providers/aws/r/vpn_gateway_route_propagation.html
