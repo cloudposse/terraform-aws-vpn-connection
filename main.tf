@@ -30,6 +30,9 @@ resource "aws_vpn_connection" "default" {
   tunnel2_inside_cidr   = var.vpn_connection_tunnel2_inside_cidr
   tunnel1_preshared_key = var.vpn_connection_tunnel1_preshared_key
   tunnel2_preshared_key = var.vpn_connection_tunnel2_preshared_key
+  tunnel1_ike_versions  = var.tunnel1_ike_versions
+  tunnel2_ike_versions  = var.tunnel2_ike_versions
+
   tags                  = module.this.tags
 }
 

@@ -60,3 +60,14 @@ variable "vpn_connection_tunnel2_preshared_key" {
   default     = null
 }
 
+variable "tunnel1_ike_versions" {
+  type        = string
+  description = "(Optional) The IKE versions that are permitted for the first VPN tunnel. Valid values are ikev1 | ikev2."
+  default     = null
+}
+
+variable "tunnel2_ike_versions" {
+  type        = string
+  description = "(Optional) The IKE versions that are permitted for the first VPN tunnel. Valid values are ikev1 | ikev2."
+  default     = null
+}
