@@ -5,7 +5,7 @@ variable "vpc_id" {
 
 variable "vpn_gateway_id" {
   description = "VPN gateway to use if you want to share a virtual private gateway with multiple VPN connections"
-  default = null
+  default     = null
 }
 
 variable "vpn_gateway_amazon_side_asn" {
