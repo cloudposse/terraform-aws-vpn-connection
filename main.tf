@@ -4,7 +4,7 @@ locals {
 
 # https://www.terraform.io/docs/providers/aws/r/vpn_gateway.html
 resource "aws_vpn_gateway" "default" {
-  count           = local.enabled ? 1 : 0
+  count           = var.vpn_gateway_id != null ? 0 : (local.enabled ? 1 : 0)
   vpc_id          = var.vpc_id
   amazon_side_asn = var.vpn_gateway_amazon_side_asn
   tags            = module.this.tags
@@ -22,7 +22,7 @@ resource "aws_customer_gateway" "default" {
 # https://www.terraform.io/docs/providers/aws/r/vpn_connection.html
 resource "aws_vpn_connection" "default" {
   count                    = local.enabled ? 1 : 0
-  vpn_gateway_id           = join("", aws_vpn_gateway.default.*.id)
+  vpn_gateway_id           = var.vpn_gateway_id != null ? var.vpn_gateway_id : join("", aws_vpn_gateway.default.*.id)
   customer_gateway_id      = join("", aws_customer_gateway.default.*.id)
   type                     = "ipsec.1"
   static_routes_only       = var.vpn_connection_static_routes_only
@@ -61,7 +61,7 @@ resource "aws_vpn_connection" "default" {
 # https://www.terraform.io/docs/providers/aws/r/vpn_gateway_route_propagation.html
 resource "aws_vpn_gateway_route_propagation" "default" {
   count          = local.enabled ? length(var.route_table_ids) : 0
-  vpn_gateway_id = join("", aws_vpn_gateway.default.*.id)
+  vpn_gateway_id = var.vpn_gateway_id != null ? var.vpn_gateway_id : join("", aws_vpn_gateway.default.*.id)
   route_table_id = element(var.route_table_ids, count.index)
 }
 

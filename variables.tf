@@ -3,6 +3,11 @@ variable "vpc_id" {
   description = "The ID of the VPC to which the Virtual Private Gateway will be attached"
 }
 
+variable "vpn_gateway_id" {
+  description = "VPN gateway to use if you want to share a virtual private gateway with multiple VPN connections"
+  default = null
+}
+
 variable "vpn_gateway_amazon_side_asn" {
   description = "The Autonomous System Number (ASN) for the Amazon side of the VPN gateway. If you don't specify an ASN, the Virtual Private Gateway is created with the default ASN"
   default     = 64512
