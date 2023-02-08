@@ -13,6 +13,12 @@ variable "vpn_gateway_amazon_side_asn" {
   default     = 64512
 }
 
+variable "customer_gateway_name_override" {
+  description = "Override the default name of the customer gateway"
+  type        = string
+  default     = null
+}
+
 variable "customer_gateway_bgp_asn" {
   description = "The gateway's Border Gateway Protocol (BGP) Autonomous System Number (ASN)"
   default     = 65000
