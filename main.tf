@@ -16,7 +16,7 @@ resource "aws_customer_gateway" "default" {
   bgp_asn    = var.customer_gateway_bgp_asn
   ip_address = var.customer_gateway_ip_address
   type       = "ipsec.1"
-  tags       = merge(
+  tags = merge(
     module.this.tags,
     var.customer_gateway_name_override != null ? { Name = var.customer_gateway_name_override } : {}
   )
