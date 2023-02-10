@@ -13,6 +13,12 @@ variable "vpn_gateway_amazon_side_asn" {
   default     = 64512
 }
 
+variable "customer_gateway_id" {
+  description = "If provided, this module won't create a customer gateway but use this customer gateway ID instead"
+  type        = string
+  default     = null
+}
+
 variable "customer_gateway_name_override" {
   description = "Override the default name of the customer gateway"
   type        = string

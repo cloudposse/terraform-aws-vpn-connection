@@ -12,7 +12,7 @@ resource "aws_vpn_gateway" "default" {
 
 # https://www.terraform.io/docs/providers/aws/r/customer_gateway.html
 resource "aws_customer_gateway" "default" {
-  count      = local.enabled ? 1 : 0
+  count      = local.enabled && var.customer_gateway_id == null ? 1 : 0
   bgp_asn    = var.customer_gateway_bgp_asn
   ip_address = var.customer_gateway_ip_address
   type       = "ipsec.1"
@@ -27,7 +27,7 @@ resource "aws_customer_gateway" "default" {
 resource "aws_vpn_connection" "default" {
   count                    = local.enabled ? 1 : 0
   vpn_gateway_id           = var.vpn_gateway_id != null ? var.vpn_gateway_id : join("", aws_vpn_gateway.default.*.id)
-  customer_gateway_id      = join("", aws_customer_gateway.default.*.id)
+  customer_gateway_id      = var.customer_gateway_id == null ? join("", aws_customer_gateway.default.*.id) : var.customer_gateway_id
   type                     = "ipsec.1"
   static_routes_only       = var.vpn_connection_static_routes_only
   local_ipv4_network_cidr  = var.vpn_connection_local_ipv4_network_cidr
