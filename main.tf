@@ -18,7 +18,8 @@ resource "aws_customer_gateway" "default" {
   type       = "ipsec.1"
   tags = merge(
     module.this.tags,
-    var.customer_gateway_name_override != null ? { Name = var.customer_gateway_name_override } : {}
+    var.customer_gateway_name_override != null ? { Name = var.customer_gateway_name_override } : {},
+    { ip = var.customer_gateway_ip_address }
   )
 }
 
