@@ -60,8 +60,8 @@ resource "aws_vpn_connection" "default" {
   tunnel1_log_options {
     cloudwatch_log_options {
       log_enabled       = var.vpn_connection_tunnel1_cloudwatch_log_enabled
-      log_group_arn     = module.logs.log_group_arn
-      log_output_format = var.vpn_connection_tunnel1_cloudwatch_log_output_format
+      log_group_arn     = var.vpn_connection_tunnel1_cloudwatch_log_enabled ? module.logs.log_group_arn : null
+      log_output_format = var.vpn_connection_tunnel1_cloudwatch_log_enabled ? var.vpn_connection_tunnel1_cloudwatch_log_output_format : null
     }
   }
 
@@ -81,8 +81,8 @@ resource "aws_vpn_connection" "default" {
   tunnel2_log_options {
     cloudwatch_log_options {
       log_enabled       = var.vpn_connection_tunnel2_cloudwatch_log_enabled
-      log_group_arn     = module.logs.log_group_arn
-      log_output_format = var.vpn_connection_tunnel2_cloudwatch_log_output_format
+      log_group_arn     = var.vpn_connection_tunnel2_cloudwatch_log_enabled ? module.logs.log_group_arn : null
+      log_output_format = var.vpn_connection_tunnel2_cloudwatch_log_enabled ? var.vpn_connection_tunnel2_cloudwatch_log_output_format : null
     }
   }
 
