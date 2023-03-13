@@ -114,6 +114,22 @@ variable "vpn_connection_tunnel1_startup_action" {
   default     = "add"
 }
 
+variable "vpn_connection_tunnel1_cloudwatch_log_enabled" {
+  type        = bool
+  description = "value"
+  default     = null
+}
+variable "vpn_connection_tunnel1_cloudwatch_log_group_arn" {
+  type        = string
+  description = "value"
+  default     = null
+}
+variable "vpn_connection_tunnel1_cloudwatch_log_output_format" {
+  type        = string
+  description = "value"
+  default     = null
+}
+
 variable "vpn_connection_tunnel2_dpd_timeout_action" {
   type        = string
   description = "The action to take after DPD timeout occurs for the second VPN tunnel. Specify restart to restart the IKE initiation. Specify clear to end the IKE session. Valid values are clear | none | restart."
@@ -178,4 +194,20 @@ variable "vpn_connection_tunnel2_startup_action" {
   type        = string
   description = "The action to take when the establishing the tunnel for the second VPN connection. By default, your customer gateway device must initiate the IKE negotiation and bring up the tunnel. Specify start for AWS to initiate the IKE negotiation. Valid values are add | start."
   default     = "add"
+}
+
+variable "vpn_connection_tunnel2_cloudwatch_log_enabled" {
+  type        = bool
+  description = "value"
+  default     = null
+}
+variable "vpn_connection_tunnel2_cloudwatch_log_group_arn" {
+  type        = string
+  description = "value"
+  default     = null
+}
+variable "vpn_connection_tunnel2_cloudwatch_log_output_format" {
+  type        = string
+  description = "value"
+  default     = null
 }

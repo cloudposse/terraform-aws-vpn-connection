@@ -42,6 +42,14 @@ resource "aws_vpn_connection" "default" {
   tunnel1_phase1_integrity_algorithms  = var.vpn_connection_tunnel1_phase1_integrity_algorithms
   tunnel1_phase2_integrity_algorithms  = var.vpn_connection_tunnel1_phase2_integrity_algorithms
 
+  tunnel1_log_options {
+    cloudwatch_log_options {
+      log_enabled       = var.vpn_connection_tunnel1_cloudwatch_log_enabled
+      log_group_arn     = var.vpn_connection_tunnel1_cloudwatch_log_group_arn
+      log_output_format = var.vpn_connection_tunnel1_cloudwatch_log_output_format
+    }
+  }
+
   tunnel2_dpd_timeout_action = var.vpn_connection_tunnel2_dpd_timeout_action
   tunnel2_ike_versions       = var.vpn_connection_tunnel2_ike_versions
   tunnel2_inside_cidr        = var.vpn_connection_tunnel2_inside_cidr
@@ -54,6 +62,15 @@ resource "aws_vpn_connection" "default" {
   tunnel2_phase2_encryption_algorithms = var.vpn_connection_tunnel2_phase2_encryption_algorithms
   tunnel2_phase1_integrity_algorithms  = var.vpn_connection_tunnel2_phase1_integrity_algorithms
   tunnel2_phase2_integrity_algorithms  = var.vpn_connection_tunnel2_phase2_integrity_algorithms
+
+  tunnel2_log_options {
+    cloudwatch_log_options {
+      log_enabled       = var.vpn_connection_tunnel2_cloudwatch_log_enabled
+      log_group_arn     = var.vpn_connection_tunnel2_cloudwatch_log_group_arn
+      log_output_format = var.vpn_connection_tunnel2_cloudwatch_log_output_format
+    }
+  }
+
 
   tags = module.this.tags
 }
