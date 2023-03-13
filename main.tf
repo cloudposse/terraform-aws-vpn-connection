@@ -1,5 +1,6 @@
 locals {
-  enabled = module.this.enabled
+  enabled      = module.this.enabled
+  logs_enabled = module.this.enabled && (var.vpn_connection_tunnel1_cloudwatch_log_enabled || var.vpn_connection_tunnel2_cloudwatch_log_enabled)
 }
 
 # https://www.terraform.io/docs/providers/aws/r/vpn_gateway.html
@@ -17,6 +18,15 @@ resource "aws_customer_gateway" "default" {
   ip_address = var.customer_gateway_ip_address
   type       = "ipsec.1"
   tags       = module.this.tags
+}
+
+module "logs" {
+  source  = "cloudposse/cloudwatch-logs/aws"
+  version = "0.6.7"
+
+  enabled = local.logs_enabled
+
+  context = module.this.context
 }
 
 # https://www.terraform.io/docs/providers/aws/r/vpn_connection.html
@@ -45,7 +55,7 @@ resource "aws_vpn_connection" "default" {
   tunnel1_log_options {
     cloudwatch_log_options {
       log_enabled       = var.vpn_connection_tunnel1_cloudwatch_log_enabled
-      log_group_arn     = var.vpn_connection_tunnel1_cloudwatch_log_group_arn
+      log_group_arn     = module.logs.log_group_arn
       log_output_format = var.vpn_connection_tunnel1_cloudwatch_log_output_format
     }
   }
@@ -66,7 +76,7 @@ resource "aws_vpn_connection" "default" {
   tunnel2_log_options {
     cloudwatch_log_options {
       log_enabled       = var.vpn_connection_tunnel2_cloudwatch_log_enabled
-      log_group_arn     = var.vpn_connection_tunnel2_cloudwatch_log_group_arn
+      log_group_arn     = module.logs.log_group_arn
       log_output_format = var.vpn_connection_tunnel2_cloudwatch_log_output_format
     }
   }
