@@ -48,6 +48,12 @@ variable "vpn_connection_remote_ipv4_network_cidr" {
   default     = "0.0.0.0/0"
 }
 
+variable "vpn_connection_log_retention_in_days" {
+  type        = number
+  description = "Specifies the number of days you want to retain log events."
+  default     = 30
+}
+
 variable "vpn_connection_tunnel1_dpd_timeout_action" {
   type        = string
   description = "The action to take after DPD timeout occurs for the first VPN tunnel. Specify restart to restart the IKE initiation. Specify clear to end the IKE session. Valid values are clear | none | restart."

@@ -24,10 +24,15 @@ module "logs" {
   source  = "cloudposse/cloudwatch-logs/aws"
   version = "0.6.7"
 
-  enabled = local.logs_enabled
+  attributes = ["vpn"]
+
+  enabled           = local.logs_enabled
+  iam_role_enabled  = false
+  retention_in_days = var.vpn_connection_log_retention_in_days
 
   context = module.this.context
 }
+
 
 # https://www.terraform.io/docs/providers/aws/r/vpn_connection.html
 resource "aws_vpn_connection" "default" {
