@@ -19,12 +19,30 @@ resource "aws_customer_gateway" "default" {
   tags       = module.this.tags
 }
 
+resource "aws_ec2_transit_gateway" "default" {
+  count = var.transit_gateway_attachment_vpc_subnets_list > 0 ? 1 : 0
+  tags  = module.this.tags
+}
+
+resource "aws_ec2_transit_gateway_vpc_attachment" "default" {
+  count = var.transit_gateway_attachment_vpc_subnets_list > 0 ? 1 : 0
+  for_each = {
+    for index, vpc in var.transit_gateway_attachment_vpc_subnets_list :
+    vpc.id => vpc
+  }
+  subnet_ids         = each.value.subnet_ids
+  transit_gateway_id = resource.aws_ec2_transit_gateway.default.id
+  vpc_id             = each.value.id
+  tags               = module.this.tags
+}
+
+
 # https://www.terraform.io/docs/providers/aws/r/vpn_connection.html
 resource "aws_vpn_connection" "default" {
   count                    = local.enabled ? 1 : 0
   vpn_gateway_id           = join("", aws_vpn_gateway.default.*.id)
   customer_gateway_id      = join("", aws_customer_gateway.default.*.id)
-  transit_gateway_id       = var.aws_transit_gateway_id
+  transit_gateway_id       = var.transit_gateway_attachment_vpc_subnets_list.length < 1 ? "" : resource.aws_ec2_transit_gateway.default.id
   type                     = "ipsec.1"
   static_routes_only       = var.vpn_connection_static_routes_only
   local_ipv4_network_cidr  = var.vpn_connection_local_ipv4_network_cidr

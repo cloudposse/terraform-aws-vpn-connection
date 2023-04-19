@@ -180,8 +180,11 @@ variable "vpn_connection_tunnel2_startup_action" {
   default     = "add"
 }
 
-variable "aws_transit_gateway_id" {
-  type        = string
-  description = "The AWS EC2 Transit Gateway ID to attach the VPN connection to, multiple VPCs can be attached to same transit gateway"
-  default     = null
+variable "transit_gateway_attachment_vpc_subnets_list" {
+  type = list(object({
+    id         = string
+    subnet_ids = list(string)
+  }))
+  description = "List of vpc with subnets that will be attached to the transit gateway. Transit gateway will only be setup if this variable is not empty."
+  default     = []
 }
