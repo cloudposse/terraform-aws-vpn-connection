@@ -24,6 +24,7 @@ resource "aws_vpn_connection" "default" {
   count                    = local.enabled ? 1 : 0
   vpn_gateway_id           = join("", aws_vpn_gateway.default.*.id)
   customer_gateway_id      = join("", aws_customer_gateway.default.*.id)
+  transit_gateway_id       = var.aws_transit_gateway_id
   type                     = "ipsec.1"
   static_routes_only       = var.vpn_connection_static_routes_only
   local_ipv4_network_cidr  = var.vpn_connection_local_ipv4_network_cidr

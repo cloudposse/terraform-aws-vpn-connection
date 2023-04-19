@@ -179,3 +179,9 @@ variable "vpn_connection_tunnel2_startup_action" {
   description = "The action to take when the establishing the tunnel for the second VPN connection. By default, your customer gateway device must initiate the IKE negotiation and bring up the tunnel. Specify start for AWS to initiate the IKE negotiation. Valid values are add | start."
   default     = "add"
 }
+
+variable "aws_transit_gateway_id" {
+  type        = string
+  description = "The AWS EC2 Transit Gateway ID to attach the VPN connection to, multiple VPCs can be attached to same transit gateway"
+  default     = null
+}
