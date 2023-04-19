@@ -4,7 +4,7 @@ locals {
 
 # https://www.terraform.io/docs/providers/aws/r/vpn_gateway.html
 resource "aws_vpn_gateway" "default" {
-  count           = local.enabled ? 1 : 0
+  count           = local.enabled && length(var.transit_gateway_attachment_vpc_subnets_list) < 1 ? 1 : 0
   vpc_id          = var.vpc_id
   amazon_side_asn = var.vpn_gateway_amazon_side_asn
   tags            = module.this.tags
@@ -20,29 +20,31 @@ resource "aws_customer_gateway" "default" {
 }
 
 resource "aws_ec2_transit_gateway" "default" {
-  count = var.transit_gateway_attachment_vpc_subnets_list > 0 ? 1 : 0
+  count = length(var.transit_gateway_attachment_vpc_subnets_list) > 0 ? 1 : 0
   tags  = module.this.tags
 }
 
 resource "aws_ec2_transit_gateway_vpc_attachment" "default" {
-  count = var.transit_gateway_attachment_vpc_subnets_list > 0 ? 1 : 0
   for_each = {
     for index, vpc in var.transit_gateway_attachment_vpc_subnets_list :
     vpc.id => vpc
   }
   subnet_ids         = each.value.subnet_ids
-  transit_gateway_id = resource.aws_ec2_transit_gateway.default.id
+  transit_gateway_id = join("", aws_ec2_transit_gateway.default.*.id)
   vpc_id             = each.value.id
   tags               = module.this.tags
+  depends_on = [
+    aws_ec2_transit_gateway.default
+  ]
 }
 
 
 # https://www.terraform.io/docs/providers/aws/r/vpn_connection.html
 resource "aws_vpn_connection" "default" {
   count                    = local.enabled ? 1 : 0
-  vpn_gateway_id           = join("", aws_vpn_gateway.default.*.id)
+  vpn_gateway_id           = length(var.transit_gateway_attachment_vpc_subnets_list) < 1 ? join("", aws_vpn_gateway.default.*.id) : null
   customer_gateway_id      = join("", aws_customer_gateway.default.*.id)
-  transit_gateway_id       = var.transit_gateway_attachment_vpc_subnets_list.length < 1 ? "" : resource.aws_ec2_transit_gateway.default.id
+  transit_gateway_id       = length(var.transit_gateway_attachment_vpc_subnets_list) > 0 ? join("", aws_ec2_transit_gateway.default.*.id) : null
   type                     = "ipsec.1"
   static_routes_only       = var.vpn_connection_static_routes_only
   local_ipv4_network_cidr  = var.vpn_connection_local_ipv4_network_cidr
