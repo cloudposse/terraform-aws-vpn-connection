@@ -20,7 +20,7 @@ resource "aws_customer_gateway" "default" {
 }
 
 resource "aws_ec2_transit_gateway" "default" {
-  count = length(var.transit_gateway_attachment_vpc_subnets_list) > 0 ? 1 : 0
+  count = local.enabled && length(var.transit_gateway_attachment_vpc_subnets_list) > 0 ? 1 : 0
   tags  = module.this.tags
 }
 
