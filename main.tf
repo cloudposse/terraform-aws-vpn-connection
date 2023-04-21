@@ -4,7 +4,7 @@ locals {
 
 # https://www.terraform.io/docs/providers/aws/r/vpn_gateway.html
 resource "aws_vpn_gateway" "default" {
-  count           = local.enabled && var.existing_transit_gateway_id == "" ? 1 : 0
+  count           = local.enabled && var.transit_gateway_enabled == false ? 1 : 0
   vpc_id          = var.vpc_id
   amazon_side_asn = var.vpn_gateway_amazon_side_asn
   tags            = module.this.tags
@@ -22,9 +22,9 @@ resource "aws_customer_gateway" "default" {
 # https://www.terraform.io/docs/providers/aws/r/vpn_connection.html
 resource "aws_vpn_connection" "default" {
   count                    = local.enabled ? 1 : 0
-  vpn_gateway_id           = var.existing_transit_gateway_id == "" ? join("", aws_vpn_gateway.default.*.id) : null
+  vpn_gateway_id           = var.transit_gateway_enabled == false ? join("", aws_vpn_gateway.default.*.id) : null
   customer_gateway_id      = join("", aws_customer_gateway.default.*.id)
-  transit_gateway_id       = var.existing_transit_gateway_id != "" ? var.existing_transit_gateway_id : null
+  transit_gateway_id       = var.transit_gateway_enabled ? var.existing_transit_gateway_id : null
   type                     = "ipsec.1"
   static_routes_only       = var.vpn_connection_static_routes_only
   local_ipv4_network_cidr  = var.vpn_connection_local_ipv4_network_cidr

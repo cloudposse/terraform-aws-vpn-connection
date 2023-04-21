@@ -182,6 +182,12 @@ variable "vpn_connection_tunnel2_startup_action" {
 
 variable "existing_transit_gateway_id" {
   type        = string
-  default     = null
+  default     = ""
   description = "Existing Transit Gateway ID. If provided, the module will not create a Virtual Private Gateway but instead will use the transit_gateway. For setting up transit gateway we can use the cloudposse/transit-gateway/aws module and pass the output transit_gateway_id to this variable."
+}
+
+variable "transit_gateway_enabled" {
+  type        = bool
+  default     = false
+  description = "Set to true to enable VPN connection to transit gateway and then pass in the existing_transit_gateway_id"
 }
