@@ -180,11 +180,8 @@ variable "vpn_connection_tunnel2_startup_action" {
   default     = "add"
 }
 
-variable "transit_gateway_attachment_vpc_subnets_list" {
-  type = list(object({
-    id         = string
-    subnet_ids = list(string)
-  }))
-  description = "List of vpc with subnets that will be attached to the transit gateway. Transit gateway will only be setup if this variable is not empty."
-  default     = []
+variable "existing_transit_gateway_id" {
+  type        = string
+  default     = null
+  description = "Existing Transit Gateway ID. If provided, the module will not create a Virtual Private Gateway but instead will use the transit_gateway. For setting up transit gateway we can use the cloudposse/transit-gateway/aws module and pass the output transit_gateway_id to this variable."
 }
