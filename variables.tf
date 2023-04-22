@@ -179,3 +179,15 @@ variable "vpn_connection_tunnel2_startup_action" {
   description = "The action to take when the establishing the tunnel for the second VPN connection. By default, your customer gateway device must initiate the IKE negotiation and bring up the tunnel. Specify start for AWS to initiate the IKE negotiation. Valid values are add | start."
   default     = "add"
 }
+
+variable "existing_transit_gateway_id" {
+  type        = string
+  default     = ""
+  description = "Existing Transit Gateway ID. If provided, the module will not create a Virtual Private Gateway but instead will use the transit_gateway. For setting up transit gateway we can use the cloudposse/transit-gateway/aws module and pass the output transit_gateway_id to this variable."
+}
+
+variable "transit_gateway_enabled" {
+  type        = bool
+  default     = false
+  description = "Set to true to enable VPN connection to transit gateway and then pass in the existing_transit_gateway_id"
+}
