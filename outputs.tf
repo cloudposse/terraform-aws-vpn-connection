@@ -51,3 +51,7 @@ output "vpn_connection_tunnel2_vgw_inside_address" {
   value       = join("", aws_vpn_connection.default.*.tunnel2_vgw_inside_address)
 }
 
+output "vpn_transit_gateway_attachment_id" {
+  description = "Transit Gateway Attachment ID if it's enabled"
+  value       = var.transit_gateway_enabled ? join("", aws_vpn_connection.default.*.transit_gateway_attachment_id) : null
+}
