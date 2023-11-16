@@ -63,7 +63,7 @@ resource "aws_vpn_connection" "default" {
     cloudwatch_log_options {
       log_enabled = var.vpn_tunnel_logging
       log_group_arn = aws_cloudwatch_log_group.tunnel1[0].arn
-      log_output_format = "JSON"
+      log_output_format = "json"
     }
   }
 
@@ -71,7 +71,7 @@ resource "aws_vpn_connection" "default" {
     cloudwatch_log_options {
       log_enabled = var.vpn_tunnel_logging
       log_group_arn = aws_cloudwatch_log_group.tunnel2[0].arn
-      log_output_format = "JSON"
+      log_output_format = "json"
     }
   }
 
