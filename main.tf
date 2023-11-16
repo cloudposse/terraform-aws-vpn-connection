@@ -59,7 +59,35 @@ resource "aws_vpn_connection" "default" {
   tunnel2_phase1_integrity_algorithms  = var.vpn_connection_tunnel2_phase1_integrity_algorithms
   tunnel2_phase2_integrity_algorithms  = var.vpn_connection_tunnel2_phase2_integrity_algorithms
 
+  tunnel1_log_options {
+    cloudwatch_log_options {
+      log_enabled = var.vpn_tunnel_logging
+      log_group_arn = aws_cloudwatch_log_group.tunnel1[0].arn
+      log_output_format = "JSON"
+    }
+  }
+
+  tunnel2_log_options {
+    cloudwatch_log_options {
+      log_enabled = var.vpn_tunnel_logging
+      log_group_arn = aws_cloudwatch_log_group.tunnel2[0].arn
+      log_output_format = "JSON"
+    }
+  }
+
   tags = module.this.tags
+}
+
+resource "aws_cloudwatch_log_group" "tunnel1" {
+  count = local.enabled && var.vpn_tunnel_logging ? 1 : 0
+  name = "/aws/vpn/${terraform.workspace}-${var.name}-tunnel1"
+  retention_in_days = var.vpn_tunnel_logging_retention
+}
+
+resource "aws_cloudwatch_log_group" "tunnel2" {
+  count = local.enabled && var.vpn_tunnel_logging ? 1 : 0
+  name = "/aws/vpn/${terraform.workspace}-${var.name}-tunnel2"
+  retention_in_days = var.vpn_tunnel_logging_retention
 }
 
 # https://www.terraform.io/docs/providers/aws/r/vpn_gateway_route_propagation.html
