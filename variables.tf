@@ -1,6 +1,7 @@
 variable "vpc_id" {
   type        = string
   description = "The ID of the VPC to which the Virtual Private Gateway will be attached"
+  default     = null
 }
 
 variable "vpn_gateway_amazon_side_asn" {
