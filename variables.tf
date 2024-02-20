@@ -192,3 +192,18 @@ variable "transit_gateway_enabled" {
   default     = false
   description = "Set to true to enable VPN connection to transit gateway and then pass in the existing_transit_gateway_id"
 }
+
+variable "transit_gateway_route_table_id" {
+  type        = string
+  default     = null
+  description = "The ID of the route table for the transit gateway that you want to associate + propogate the VPN connection's TGW attachment"
+}
+
+variable "transit_gateway_routes" {
+  type = map(object({
+    blackhole              = optional(bool, false)
+    destination_cidr_block = string
+  }))
+  description = "A map of transit gateway routes to create on the given TGW route table (via `transit_gateway_route_table_id`) for the created VPN Attachment. Use the key in the map to describe the route."
+  default     = {}
+}

@@ -1,16 +1,16 @@
 output "vpn_gateway_id" {
   description = "Virtual Private Gateway ID"
-  value       = join("", aws_vpn_gateway.default.*.id)
+  value       = local.vpn_gateway_id
 }
 
 output "customer_gateway_id" {
   description = "Customer Gateway ID"
-  value       = join("", aws_customer_gateway.default.*.id)
+  value       = local.customer_gateway_id
 }
 
 output "vpn_connection_id" {
   description = "VPN Connection ID"
-  value       = join("", aws_vpn_connection.default.*.id)
+  value       = local.vpn_connection_id
 }
 
 output "vpn_connection_customer_gateway_configuration" {
@@ -49,5 +49,10 @@ output "vpn_connection_tunnel2_cgw_inside_address" {
 output "vpn_connection_tunnel2_vgw_inside_address" {
   description = "The RFC 6890 link-local address of the second VPN tunnel (Virtual Private Gateway side)"
   value       = join("", aws_vpn_connection.default.*.tunnel2_vgw_inside_address)
+}
+
+output "transit_gateway_attachment_id" {
+  description = "The ID of the transit gateway attachment for the VPN connection (if a TGW connection)"
+  value       = local.transit_gateway_attachment_id
 }
 

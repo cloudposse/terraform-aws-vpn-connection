@@ -1,5 +1,12 @@
 locals {
   enabled = module.this.enabled
+
+  transit_gateway_enabled = local.enabled && var.transit_gateway_enabled
+
+  transit_gateway_attachment_id = join("", aws_vpn_connection.default[*].transit_gateway_attachment_id)
+  vpn_gateway_id                = join("", aws_vpn_gateway.default[*].id)
+  customer_gateway_id           = join("", aws_customer_gateway.default[*].id)
+  vpn_connection_id             = join("", aws_vpn_connection.default[*].id)
 }
 
 # https://www.terraform.io/docs/providers/aws/r/vpn_gateway.html
@@ -22,9 +29,9 @@ resource "aws_customer_gateway" "default" {
 # https://www.terraform.io/docs/providers/aws/r/vpn_connection.html
 resource "aws_vpn_connection" "default" {
   count                    = local.enabled ? 1 : 0
-  vpn_gateway_id           = var.transit_gateway_enabled == false ? join("", aws_vpn_gateway.default.*.id) : null
-  customer_gateway_id      = join("", aws_customer_gateway.default.*.id)
-  transit_gateway_id       = var.transit_gateway_enabled ? var.existing_transit_gateway_id : null
+  vpn_gateway_id           = local.transit_gateway_enabled == false ? local.vpn_gateway_id : null
+  customer_gateway_id      = local.customer_gateway_id
+  transit_gateway_id       = local.transit_gateway_enabled ? var.existing_transit_gateway_id : null
   type                     = "ipsec.1"
   static_routes_only       = var.vpn_connection_static_routes_only
   local_ipv4_network_cidr  = var.vpn_connection_local_ipv4_network_cidr
@@ -62,13 +69,52 @@ resource "aws_vpn_connection" "default" {
 # https://www.terraform.io/docs/providers/aws/r/vpn_gateway_route_propagation.html
 resource "aws_vpn_gateway_route_propagation" "default" {
   count          = local.enabled ? length(var.route_table_ids) : 0
-  vpn_gateway_id = join("", aws_vpn_gateway.default.*.id)
+  vpn_gateway_id = local.vpn_gateway_id
   route_table_id = element(var.route_table_ids, count.index)
 }
 
 # https://www.terraform.io/docs/providers/aws/r/vpn_connection_route.html
 resource "aws_vpn_connection_route" "default" {
   count                  = local.enabled && var.vpn_connection_static_routes_only ? length(var.vpn_connection_static_routes_destinations) : 0
-  vpn_connection_id      = join("", aws_vpn_connection.default.*.id)
+  vpn_connection_id      = local.vpn_connection_id
   destination_cidr_block = element(var.vpn_connection_static_routes_destinations, count.index)
+}
+
+## Transit Gateway VPN Connection Attachments
+
+# Required to tag VPN Connection TGW Attachments out of bound of the VPN Connection resource
+# If we do not do this, the TGW Attachment will not have a name tag or any tags, which makes it difficult to identify in the console.
+# https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ec2_tag
+resource "aws_ec2_tag" "default" {
+  for_each = local.transit_gateway_enabled ? module.this.tags : {}
+
+  resource_id = local.transit_gateway_attachment_id
+  key         = each.key
+  value       = each.value
+}
+
+# https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ec2_transit_gateway_route_table_association
+resource "aws_ec2_transit_gateway_route_table_association" "default" {
+  count = local.transit_gateway_enabled && var.transit_gateway_route_table_id != null ? 1 : 0
+
+  transit_gateway_attachment_id  = local.transit_gateway_attachment_id
+  transit_gateway_route_table_id = var.transit_gateway_route_table_id
+}
+
+# https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ec2_transit_gateway_route_table_propagation
+resource "aws_ec2_transit_gateway_route_table_propagation" "default" {
+  count = local.transit_gateway_enabled && var.transit_gateway_route_table_id != null ? 1 : 0
+
+  transit_gateway_attachment_id  = local.transit_gateway_attachment_id
+  transit_gateway_route_table_id = var.transit_gateway_route_table_id
+}
+
+# https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ec2_transit_gateway_route
+resource "aws_ec2_transit_gateway_route" "default" {
+  for_each = local.transit_gateway_enabled && var.transit_gateway_route_table_id != null ? var.transit_gateway_routes : {}
+
+  blackhole                      = each.value.blackhole
+  destination_cidr_block         = each.value.destination_cidr_block
+  transit_gateway_attachment_id  = local.transit_gateway_attachment_id
+  transit_gateway_route_table_id = var.transit_gateway_route_table_id
 }
