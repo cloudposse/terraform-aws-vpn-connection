@@ -68,7 +68,7 @@ resource "aws_vpn_gateway_route_propagation" "default" {
 
 # https://www.terraform.io/docs/providers/aws/r/vpn_connection_route.html
 resource "aws_vpn_connection_route" "default" {
-  count                  = local.enabled && var.vpn_connection_static_routes_only == "true" ? length(var.vpn_connection_static_routes_destinations) : 0
+  count                  = local.enabled && var.vpn_connection_static_routes_only ? length(var.vpn_connection_static_routes_destinations) : 0
   vpn_connection_id      = join("", aws_vpn_connection.default.*.id)
   destination_cidr_block = element(var.vpn_connection_static_routes_destinations, count.index)
 }

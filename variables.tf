@@ -25,9 +25,9 @@ variable "route_table_ids" {
 }
 
 variable "vpn_connection_static_routes_only" {
-  type        = string
+  type        = bool
   description = "If set to `true`, the VPN connection will use static routes exclusively. Static routes must be used for devices that don't support BGP"
-  default     = "true"
+  default     = false
 }
 
 variable "vpn_connection_static_routes_destinations" {
