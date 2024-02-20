@@ -22,10 +22,7 @@ resource "aws_customer_gateway" "default" {
 
 module "logs" {
   source  = "cloudposse/cloudwatch-logs/aws"
-  version = "0.6.7"
-
-  attributes = ["vpn"]
-
+  version = "0.6.8"
   enabled           = local.logs_enabled
   iam_role_enabled  = false
   retention_in_days = var.vpn_connection_log_retention_in_days
@@ -85,7 +82,6 @@ resource "aws_vpn_connection" "default" {
       log_output_format = var.vpn_connection_tunnel2_cloudwatch_log_enabled ? var.vpn_connection_tunnel2_cloudwatch_log_output_format : null
     }
   }
-
 
   tags = module.this.tags
 }
