@@ -15,10 +15,8 @@ output "vpn_connection_id" {
 
 output "vpn_connection_customer_gateway_configuration" {
   description = "The configuration information for the VPN connection's Customer Gateway (in the native XML format)"
-  value = join(
-    "",
-    aws_vpn_connection.default[*].customer_gateway_configuration,
-  )
+  sensitive   = true
+  value       = join("", aws_vpn_connection.default[*].customer_gateway_configuration)
 }
 
 output "vpn_connection_tunnel1_address" {
