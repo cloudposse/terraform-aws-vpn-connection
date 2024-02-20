@@ -15,6 +15,7 @@ output "vpn_connection_id" {
 
 output "vpn_connection_customer_gateway_configuration" {
   description = "The configuration information for the VPN connection's Customer Gateway (in the native XML format)"
+  sensitive   = true
   value       = module.vpn_connection.vpn_connection_customer_gateway_configuration
 }
 
