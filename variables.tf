@@ -1,9 +1,11 @@
 variable "vpc_id" {
   type        = string
   description = "The ID of the VPC to which the Virtual Private Gateway will be attached"
+  default     = null
 }
 
 variable "vpn_gateway_amazon_side_asn" {
+  type        = number
   description = "The Autonomous System Number (ASN) for the Amazon side of the VPN gateway. If you don't specify an ASN, the Virtual Private Gateway is created with the default ASN"
   default     = 64512
 }
@@ -25,9 +27,9 @@ variable "route_table_ids" {
 }
 
 variable "vpn_connection_static_routes_only" {
-  type        = string
+  type        = bool
   description = "If set to `true`, the VPN connection will use static routes exclusively. Static routes must be used for devices that don't support BGP"
-  default     = "true"
+  default     = false
 }
 
 variable "vpn_connection_static_routes_destinations" {
@@ -208,4 +210,31 @@ variable "vpn_connection_tunnel2_cloudwatch_log_output_format" {
   type        = string
   description = "Set log format for the tunnel. Default format is json. Possible values are: json and text"
   default     = "json"
+}
+
+variable "existing_transit_gateway_id" {
+  type        = string
+  default     = ""
+  description = "Existing Transit Gateway ID. If provided, the module will not create a Virtual Private Gateway but instead will use the transit_gateway. For setting up transit gateway we can use the cloudposse/transit-gateway/aws module and pass the output transit_gateway_id to this variable."
+}
+
+variable "transit_gateway_enabled" {
+  type        = bool
+  default     = false
+  description = "Set to true to enable VPN connection to transit gateway and then pass in the existing_transit_gateway_id"
+}
+
+variable "transit_gateway_route_table_id" {
+  type        = string
+  default     = null
+  description = "The ID of the route table for the transit gateway that you want to associate + propogate the VPN connection's TGW attachment"
+}
+
+variable "transit_gateway_routes" {
+  type = map(object({
+    blackhole              = optional(bool, false)
+    destination_cidr_block = string
+  }))
+  description = "A map of transit gateway routes to create on the given TGW route table (via `transit_gateway_route_table_id`) for the created VPN Attachment. Use the key in the map to describe the route."
+  default     = {}
 }
