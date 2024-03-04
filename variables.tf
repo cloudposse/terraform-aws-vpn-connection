@@ -131,7 +131,7 @@ variable "vpn_connection_tunnel1_cloudwatch_log_enabled" {
 variable "vpn_connection_tunnel1_cloudwatch_log_output_format" {
   type        = string
   description = "Set log format for the tunnel. Default format is json. Possible values are: json and text"
-  default     = null
+  default     = "json"
 }
 
 variable "vpn_connection_tunnel2_dpd_timeout_action" {
