@@ -54,3 +54,7 @@ output "transit_gateway_attachment_id" {
   value       = local.transit_gateway_attachment_id
 }
 
+output "vpn_transit_gateway_attachment_id" {
+  description = "Transit Gateway Attachment ID if it's enabled"
+  value       = var.transit_gateway_enabled ? join("", aws_vpn_connection.default.*.transit_gateway_attachment_id) : null
+}
