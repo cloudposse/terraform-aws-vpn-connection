@@ -50,6 +50,12 @@ variable "vpn_connection_remote_ipv4_network_cidr" {
   default     = "0.0.0.0/0"
 }
 
+variable "vpn_connection_log_retention_in_days" {
+  type        = number
+  description = "Specifies the number of days you want to retain log events."
+  default     = 30
+}
+
 variable "vpn_connection_tunnel1_dpd_timeout_action" {
   type        = string
   description = "The action to take after DPD timeout occurs for the first VPN tunnel. Specify restart to restart the IKE initiation. Specify clear to end the IKE session. Valid values are clear | none | restart."
@@ -116,6 +122,18 @@ variable "vpn_connection_tunnel1_startup_action" {
   default     = "add"
 }
 
+variable "vpn_connection_tunnel1_cloudwatch_log_enabled" {
+  type        = bool
+  description = "Enable or disable VPN tunnel logging feature for the tunnel"
+  default     = false
+}
+
+variable "vpn_connection_tunnel1_cloudwatch_log_output_format" {
+  type        = string
+  description = "Set log format for the tunnel. Default format is json. Possible values are: json and text"
+  default     = "json"
+}
+
 variable "vpn_connection_tunnel2_dpd_timeout_action" {
   type        = string
   description = "The action to take after DPD timeout occurs for the second VPN tunnel. Specify restart to restart the IKE initiation. Specify clear to end the IKE session. Valid values are clear | none | restart."
@@ -180,6 +198,18 @@ variable "vpn_connection_tunnel2_startup_action" {
   type        = string
   description = "The action to take when the establishing the tunnel for the second VPN connection. By default, your customer gateway device must initiate the IKE negotiation and bring up the tunnel. Specify start for AWS to initiate the IKE negotiation. Valid values are add | start."
   default     = "add"
+}
+
+variable "vpn_connection_tunnel2_cloudwatch_log_enabled" {
+  type        = bool
+  description = "Enable or disable VPN tunnel logging feature for the tunnel"
+  default     = false
+}
+
+variable "vpn_connection_tunnel2_cloudwatch_log_output_format" {
+  type        = string
+  description = "Set log format for the tunnel. Default format is json. Possible values are: json and text"
+  default     = "json"
 }
 
 variable "existing_transit_gateway_id" {

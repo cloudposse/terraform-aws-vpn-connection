@@ -1,6 +1,7 @@
 locals {
   enabled = module.this.enabled
 
+  logs_enabled            = local.enabled && (var.vpn_connection_tunnel1_cloudwatch_log_enabled || var.vpn_connection_tunnel2_cloudwatch_log_enabled)
   transit_gateway_enabled = local.enabled && var.transit_gateway_enabled
 
   transit_gateway_attachment_id = join("", aws_vpn_connection.default[*].transit_gateway_attachment_id)
@@ -26,6 +27,17 @@ resource "aws_customer_gateway" "default" {
   tags       = module.this.tags
 }
 
+module "logs" {
+  source            = "cloudposse/cloudwatch-logs/aws"
+  version           = "0.6.8"
+  enabled           = local.logs_enabled
+  iam_role_enabled  = false
+  retention_in_days = var.vpn_connection_log_retention_in_days
+
+  context = module.this.context
+}
+
+
 # https://www.terraform.io/docs/providers/aws/r/vpn_connection.html
 resource "aws_vpn_connection" "default" {
   count                    = local.enabled ? 1 : 0
@@ -50,6 +62,14 @@ resource "aws_vpn_connection" "default" {
   tunnel1_phase1_integrity_algorithms  = var.vpn_connection_tunnel1_phase1_integrity_algorithms
   tunnel1_phase2_integrity_algorithms  = var.vpn_connection_tunnel1_phase2_integrity_algorithms
 
+  tunnel1_log_options {
+    cloudwatch_log_options {
+      log_enabled       = var.vpn_connection_tunnel1_cloudwatch_log_enabled
+      log_group_arn     = var.vpn_connection_tunnel1_cloudwatch_log_enabled ? module.logs.log_group_arn : null
+      log_output_format = var.vpn_connection_tunnel1_cloudwatch_log_enabled ? var.vpn_connection_tunnel1_cloudwatch_log_output_format : null
+    }
+  }
+
   tunnel2_dpd_timeout_action = var.vpn_connection_tunnel2_dpd_timeout_action
   tunnel2_ike_versions       = var.vpn_connection_tunnel2_ike_versions
   tunnel2_inside_cidr        = var.vpn_connection_tunnel2_inside_cidr
@@ -62,6 +82,14 @@ resource "aws_vpn_connection" "default" {
   tunnel2_phase2_encryption_algorithms = var.vpn_connection_tunnel2_phase2_encryption_algorithms
   tunnel2_phase1_integrity_algorithms  = var.vpn_connection_tunnel2_phase1_integrity_algorithms
   tunnel2_phase2_integrity_algorithms  = var.vpn_connection_tunnel2_phase2_integrity_algorithms
+
+  tunnel2_log_options {
+    cloudwatch_log_options {
+      log_enabled       = var.vpn_connection_tunnel2_cloudwatch_log_enabled
+      log_group_arn     = var.vpn_connection_tunnel2_cloudwatch_log_enabled ? module.logs.log_group_arn : null
+      log_output_format = var.vpn_connection_tunnel2_cloudwatch_log_enabled ? var.vpn_connection_tunnel2_cloudwatch_log_output_format : null
+    }
+  }
 
   tags = module.this.tags
 }
