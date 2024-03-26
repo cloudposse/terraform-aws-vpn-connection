@@ -40,7 +40,7 @@ module "logs" {
 
 # https://www.terraform.io/docs/providers/aws/r/vpn_connection.html
 resource "aws_vpn_connection" "default" {
-  count                    = local.enabled && local.customer_gateway_id == "" ? 1 : 0
+  count                    = local.enabled && var.customer_gateway_ip_address == null ? 1 : 0
   vpn_gateway_id           = local.transit_gateway_enabled == false ? local.vpn_gateway_id : null
   customer_gateway_id      = local.customer_gateway_id
   transit_gateway_id       = local.transit_gateway_enabled ? var.existing_transit_gateway_id : null
