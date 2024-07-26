@@ -12,7 +12,7 @@ locals {
 
 # https://www.terraform.io/docs/providers/aws/r/vpn_gateway.html
 resource "aws_vpn_gateway" "default" {
-  count           = local.enabled && var.transit_gateway_enabled == false ? 1 : 0
+  count           = local.enabled && !var.transit_gateway_enabled ? 1 : 0
   vpc_id          = var.vpc_id
   amazon_side_asn = var.vpn_gateway_amazon_side_asn
   tags            = module.this.tags
@@ -20,7 +20,7 @@ resource "aws_vpn_gateway" "default" {
 
 # https://www.terraform.io/docs/providers/aws/r/customer_gateway.html
 resource "aws_customer_gateway" "default" {
-  count      = local.enabled ? 1 : 0
+  count      = local.enabled && var.customer_gateway_ip_address != null ? 1 : 0
   bgp_asn    = var.customer_gateway_bgp_asn
   ip_address = var.customer_gateway_ip_address
   type       = "ipsec.1"
@@ -40,7 +40,7 @@ module "logs" {
 
 # https://www.terraform.io/docs/providers/aws/r/vpn_connection.html
 resource "aws_vpn_connection" "default" {
-  count                    = local.enabled ? 1 : 0
+  count                    = local.enabled && var.customer_gateway_ip_address != null ? 1 : 0
   vpn_gateway_id           = local.transit_gateway_enabled == false ? local.vpn_gateway_id : null
   customer_gateway_id      = local.customer_gateway_id
   transit_gateway_id       = local.transit_gateway_enabled ? var.existing_transit_gateway_id : null
