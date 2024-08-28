@@ -3,7 +3,8 @@ provider "aws" {
 }
 
 module "vpn_connection" {
-  source                                    = "../../"
+  source = "../../"
+
   vpc_id                                    = var.vpc_id
   vpn_gateway_amazon_side_asn               = var.vpn_gateway_amazon_side_asn
   customer_gateway_bgp_asn                  = var.customer_gateway_bgp_asn

@@ -53,4 +53,3 @@ output "transit_gateway_attachment_id" {
   description = "The ID of the transit gateway attachment for the VPN connection (if a TGW connection)"
   value       = local.transit_gateway_attachment_id
 }
-
