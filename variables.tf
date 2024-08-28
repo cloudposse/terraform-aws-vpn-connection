@@ -17,7 +17,8 @@ variable "customer_gateway_bgp_asn" {
 
 variable "customer_gateway_ip_address" {
   type        = string
-  description = "The IP address of the gateway's Internet-routable external interface"
+  description = "The IP address of the gateway's Internet-routable external interface. Set to null to not create the customer gateway."
+  default     = null
 }
 
 variable "route_table_ids" {
