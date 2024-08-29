@@ -48,4 +48,3 @@ output "vpn_connection_tunnel2_vgw_inside_address" {
   description = "The RFC 6890 link-local address of the second VPN tunnel (Virtual Private Gateway side)"
   value       = module.vpn_connection.vpn_connection_tunnel2_vgw_inside_address
 }
-
