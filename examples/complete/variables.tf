@@ -63,12 +63,12 @@ variable "vpn_connection_tunnel2_inside_cidr" {
 
 variable "vpn_connection_tunnel1_preshared_key" {
   type        = string
-  description = "The pre-shared key of the first VPN tunnel. The pre-shared key must be between 8 and 64 characters in length and cannot start with zero. Allowed characters are alphanumeric characters, periods(.) and underscores(_)"
+  description = "The preshared key of the first VPN tunnel. The pre-shared key must be between 8 and 64 characters in length and cannot start with zero. Allowed characters are alphanumeric characters, periods(.) and underscores(_)"
   default     = ""
 }
 
 variable "vpn_connection_tunnel2_preshared_key" {
   type        = string
-  description = "The pre-shared key of the second VPN tunnel. The pre-shared key must be between 8 and 64 characters in length and cannot start with zero. Allowed characters are alphanumeric characters, periods(.) and underscores(_)"
+  description = "The preshared key of the second VPN tunnel. The pre-shared key must be between 8 and 64 characters in length and cannot start with zero. Allowed characters are alphanumeric characters, periods(.) and underscores(_)"
   default     = ""
 }
