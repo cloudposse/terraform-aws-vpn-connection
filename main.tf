@@ -5,7 +5,7 @@ locals {
   transit_gateway_enabled = local.enabled && var.transit_gateway_enabled
 
   transit_gateway_attachment_id = join("", aws_vpn_connection.default[*].transit_gateway_attachment_id)
-  vpn_gateway_id                = join("", aws_vpn_gateway.default[*].id)
+  vpn_gateway_id                = one(aws_vpn_gateway.default[*].id)
   customer_gateway_id           = join("", aws_customer_gateway.default[*].id)
   vpn_connection_id             = join("", aws_vpn_connection.default[*].id)
 }
@@ -96,7 +96,7 @@ resource "aws_vpn_connection" "default" {
 
 # https://www.terraform.io/docs/providers/aws/r/vpn_gateway_route_propagation.html
 resource "aws_vpn_gateway_route_propagation" "default" {
-  count          = local.enabled ? length(var.route_table_ids) : 0
+  count          = local.enabled && !var.transit_gateway_enabled ? length(var.route_table_ids) : 0
   vpn_gateway_id = local.vpn_gateway_id
   route_table_id = element(var.route_table_ids, count.index)
 }
