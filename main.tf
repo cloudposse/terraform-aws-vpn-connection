@@ -5,9 +5,9 @@ locals {
   transit_gateway_enabled = local.enabled && var.transit_gateway_enabled
 
   transit_gateway_attachment_id = join("", aws_vpn_connection.default[*].transit_gateway_attachment_id)
-  vpn_gateway_id                = one(aws_vpn_gateway.default[*].id)
-  customer_gateway_id           = join("", aws_customer_gateway.default[*].id)
-  vpn_connection_id             = join("", aws_vpn_connection.default[*].id)
+  vpn_gateway_id = one(aws_vpn_gateway.default[*].id)
+  customer_gateway_id = join("", aws_customer_gateway.default[*].id)
+  vpn_connection_id = join("", aws_vpn_connection.default[*].id)
 }
 
 # https://www.terraform.io/docs/providers/aws/r/vpn_gateway.html
@@ -20,12 +20,12 @@ resource "aws_vpn_gateway" "default" {
 
 # https://www.terraform.io/docs/providers/aws/r/customer_gateway.html
 resource "aws_customer_gateway" "default" {
-  count      = local.enabled && var.customer_gateway_ip_address != null ? 1 : 0
+  count       = local.enabled && var.customer_gateway_ip_address != null ? 1 : 0
   device_name = module.this.id
-  bgp_asn    = var.customer_gateway_bgp_asn
-  ip_address = var.customer_gateway_ip_address
-  type       = "ipsec.1"
-  tags       = module.this.tags
+  bgp_asn     = var.customer_gateway_bgp_asn
+  ip_address  = var.customer_gateway_ip_address
+  type        = "ipsec.1"
+  tags        = module.this.tags
 }
 
 module "logs" {
@@ -67,7 +67,8 @@ resource "aws_vpn_connection" "default" {
     cloudwatch_log_options {
       log_enabled       = var.vpn_connection_tunnel1_cloudwatch_log_enabled
       log_group_arn     = var.vpn_connection_tunnel1_cloudwatch_log_enabled ? module.logs.log_group_arn : null
-      log_output_format = var.vpn_connection_tunnel1_cloudwatch_log_enabled ? var.vpn_connection_tunnel1_cloudwatch_log_output_format : null
+      log_output_format = var.vpn_connection_tunnel1_cloudwatch_log_enabled ?
+        var.vpn_connection_tunnel1_cloudwatch_log_output_format : null
     }
   }
 
@@ -88,7 +89,8 @@ resource "aws_vpn_connection" "default" {
     cloudwatch_log_options {
       log_enabled       = var.vpn_connection_tunnel2_cloudwatch_log_enabled
       log_group_arn     = var.vpn_connection_tunnel2_cloudwatch_log_enabled ? module.logs.log_group_arn : null
-      log_output_format = var.vpn_connection_tunnel2_cloudwatch_log_enabled ? var.vpn_connection_tunnel2_cloudwatch_log_output_format : null
+      log_output_format = var.vpn_connection_tunnel2_cloudwatch_log_enabled ?
+        var.vpn_connection_tunnel2_cloudwatch_log_output_format : null
     }
   }
 
@@ -104,8 +106,9 @@ resource "aws_vpn_gateway_route_propagation" "default" {
 
 # https://www.terraform.io/docs/providers/aws/r/vpn_connection_route.html
 resource "aws_vpn_connection_route" "default" {
-  count                  = local.enabled && var.vpn_connection_static_routes_only ? length(var.vpn_connection_static_routes_destinations) : 0
-  vpn_connection_id      = local.vpn_connection_id
+  count             = local.enabled && var.vpn_connection_static_routes_only ?
+    length(var.vpn_connection_static_routes_destinations) : 0
+  vpn_connection_id = local.vpn_connection_id
   destination_cidr_block = element(var.vpn_connection_static_routes_destinations, count.index)
 }
 
@@ -140,7 +143,8 @@ resource "aws_ec2_transit_gateway_route_table_propagation" "default" {
 
 # https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ec2_transit_gateway_route
 resource "aws_ec2_transit_gateway_route" "default" {
-  for_each = local.transit_gateway_enabled && var.transit_gateway_route_table_id != null ? var.transit_gateway_routes : {}
+  for_each = local.transit_gateway_enabled && var.transit_gateway_route_table_id != null ? var.transit_gateway_routes :
+    {}
 
   blackhole                      = each.value.blackhole
   destination_cidr_block         = each.value.destination_cidr_block
