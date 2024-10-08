@@ -2,6 +2,7 @@ package test
 
 import (
 	"os"
+	"os/exec"
 	"strings"
 	"testing"
 
@@ -20,11 +21,26 @@ func cleanup(t *testing.T, terraformOptions *terraform.Options, tempTestFolder s
 	os.RemoveAll(tempTestFolder)
 }
 
+func detectPlatform() string {
+	cmd := exec.Command("terraform", "--version")
+	out, _ := cmd.CombinedOutput()
+	platform := ""
+	if strings.Contains(string(out), "Terraform") {
+		platform = "tf"
+	} else if strings.Contains(string(out), "OpenTofu") {
+		platform = "tofu"
+	} else {
+		platform = "unknown"
+	}
+	return platform
+}
+
 // Test the Terraform module in examples/complete using Terratest.
 func TestExamplesComplete(t *testing.T) {
 	t.Parallel()
 	randID := strings.ToLower(random.UniqueId())
-	attributes := []string{randID}
+	platform := detectPlatform()
+	attributes := []string{randID, platform}
 
 	rootFolder := "../../"
 	terraformFolderRelativeToRoot := "examples/complete"
@@ -61,7 +77,8 @@ func TestExamplesComplete(t *testing.T) {
 func TestExamplesCompleteDisabled(t *testing.T) {
 	t.Parallel()
 	randID := strings.ToLower(random.UniqueId())
-	attributes := []string{randID}
+	platform := detectPlatform()
+	attributes := []string{randID, platform}
 
 	rootFolder := "../../"
 	terraformFolderRelativeToRoot := "examples/complete"
