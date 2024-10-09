@@ -22,7 +22,8 @@ resource "aws_vpn_gateway" "default" {
 resource "aws_customer_gateway" "default" {
   count       = local.enabled && var.customer_gateway_ip_address != null ? 1 : 0
   device_name = module.this.id
-  bgp_asn     = var.customer_gateway_bgp_asn
+  bgp_asn     = var.customer_gateway_bgp_asn <= 2147483647 ? var.customer_gateway_bgp_asn : null
+  bgp_asn_extended = var.customer_gateway_bgp_asn > 2147483647 ? var.customer_gateway_bgp_asn : null
   ip_address  = var.customer_gateway_ip_address
   type        = "ipsec.1"
   tags        = module.this.tags
