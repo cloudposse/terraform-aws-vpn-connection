@@ -27,6 +27,10 @@ resource "aws_customer_gateway" "default" {
   ip_address       = var.customer_gateway_ip_address
   type             = "ipsec.1"
   tags             = module.this.tags
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 module "logs" {
