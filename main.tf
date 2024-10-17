@@ -21,7 +21,7 @@ resource "aws_vpn_gateway" "default" {
 # https://www.terraform.io/docs/providers/aws/r/customer_gateway.html
 resource "aws_customer_gateway" "default" {
   count       = local.enabled && var.customer_gateway_ip_address != null ? 1 : 0
-  device_name = module.this.id
+  device_name = var.customer_gateway_device_name
   bgp_asn     = var.customer_gateway_bgp_asn
   ip_address  = var.customer_gateway_ip_address
   type        = "ipsec.1"
