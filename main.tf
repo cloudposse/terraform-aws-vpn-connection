@@ -22,8 +22,9 @@ resource "aws_vpn_gateway" "default" {
 resource "aws_customer_gateway" "default" {
   count       = local.enabled && var.customer_gateway_ip_address != null ? 1 : 0
   device_name = var.customer_gateway_device_name
-  bgp_asn     = var.customer_gateway_bgp_asn
-  ip_address  = var.customer_gateway_ip_address
+  bgp_asn          = var.customer_gateway_bgp_asn <= 2147483647 ? var.customer_gateway_bgp_asn : null
+  bgp_asn_extended = var.customer_gateway_bgp_asn > 2147483647 ? var.customer_gateway_bgp_asn : null
+  ip_address       = var.customer_gateway_ip_address
   type        = "ipsec.1"
   tags        = module.this.tags
 
@@ -66,8 +67,6 @@ resource "aws_vpn_connection" "default" {
   tunnel1_phase2_encryption_algorithms = var.vpn_connection_tunnel1_phase2_encryption_algorithms
   tunnel1_phase1_integrity_algorithms  = var.vpn_connection_tunnel1_phase1_integrity_algorithms
   tunnel1_phase2_integrity_algorithms  = var.vpn_connection_tunnel1_phase2_integrity_algorithms
-  tunnel1_phase1_lifetime_seconds      = var.vpn_connection_tunnel1_phase1_lifetime_seconds
-  tunnel1_phase2_lifetime_seconds      = var.vpn_connection_tunnel1_phase2_lifetime_seconds
 
   tunnel1_log_options {
     cloudwatch_log_options {
@@ -89,8 +88,6 @@ resource "aws_vpn_connection" "default" {
   tunnel2_phase2_encryption_algorithms = var.vpn_connection_tunnel2_phase2_encryption_algorithms
   tunnel2_phase1_integrity_algorithms  = var.vpn_connection_tunnel2_phase1_integrity_algorithms
   tunnel2_phase2_integrity_algorithms  = var.vpn_connection_tunnel2_phase2_integrity_algorithms
-  tunnel2_phase1_lifetime_seconds      = var.vpn_connection_tunnel2_phase1_lifetime_seconds
-  tunnel2_phase2_lifetime_seconds      = var.vpn_connection_tunnel2_phase2_lifetime_seconds
 
   tunnel2_log_options {
     cloudwatch_log_options {
