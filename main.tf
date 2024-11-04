@@ -20,13 +20,13 @@ resource "aws_vpn_gateway" "default" {
 
 # https://www.terraform.io/docs/providers/aws/r/customer_gateway.html
 resource "aws_customer_gateway" "default" {
-  count       = local.enabled && var.customer_gateway_ip_address != null ? 1 : 0
-  device_name = var.customer_gateway_device_name
+  count            = local.enabled && var.customer_gateway_ip_address != null ? 1 : 0
+  device_name      = var.customer_gateway_device_name
   bgp_asn          = var.customer_gateway_bgp_asn <= 2147483647 ? var.customer_gateway_bgp_asn : null
   bgp_asn_extended = var.customer_gateway_bgp_asn > 2147483647 ? var.customer_gateway_bgp_asn : null
   ip_address       = var.customer_gateway_ip_address
-  type        = "ipsec.1"
-  tags        = module.this.tags
+  type             = "ipsec.1"
+  tags             = module.this.tags
 
   lifecycle {
     create_before_destroy = true
