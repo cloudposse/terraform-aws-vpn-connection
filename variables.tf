@@ -14,7 +14,7 @@ variable "vpn_gateway_amazon_side_asn" {
 variable "customer_gateway_device_name" {
   type        = string
   description = "The Device Name of the Customer Gateway"
-  default     = null
+  default     = ""
 }
 
 variable "customer_gateway_bgp_asn" {
