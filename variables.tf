@@ -282,6 +282,12 @@ variable "existing_transit_gateway_id" {
   description = "Existing Transit Gateway ID. If provided, the module will not create a Virtual Private Gateway but instead will use the transit_gateway. For setting up transit gateway we can use the cloudposse/transit-gateway/aws module and pass the output transit_gateway_id to this variable"
 }
 
+variable "enable_acceleration" {
+  type        = bool
+  description = "Set to true to enable VPN connection acceleration"
+  default     = false
+}
+
 variable "transit_gateway_enabled" {
   type        = bool
   description = "Set to true to enable VPN connection to transit gateway and then pass in the existing_transit_gateway_id"

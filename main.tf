@@ -50,6 +50,7 @@ resource "aws_vpn_connection" "default" {
   vpn_gateway_id           = local.transit_gateway_enabled == false ? local.vpn_gateway_id : null
   customer_gateway_id      = local.customer_gateway_id
   transit_gateway_id       = local.transit_gateway_enabled ? var.existing_transit_gateway_id : null
+  enable_acceleration      = var.enable_acceleration
   type                     = "ipsec.1"
   static_routes_only       = var.vpn_connection_static_routes_only
   local_ipv4_network_cidr  = var.vpn_connection_local_ipv4_network_cidr
