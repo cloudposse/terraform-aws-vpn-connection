@@ -35,7 +35,7 @@ resource "aws_customer_gateway" "default" {
 
 module "logs" {
   source  = "cloudposse/cloudwatch-logs/aws"
-  version = "0.6.8"
+  version = "0.6.9"
 
   enabled           = local.logs_enabled
   iam_role_enabled  = false
