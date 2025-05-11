@@ -39,6 +39,11 @@ output "vpn_connection_tunnel1_vgw_inside_address" {
   value       = one(aws_vpn_connection.default[*].tunnel1_vgw_inside_address)
 }
 
+output "vpn_connection_tunnel1_log_group_arn" {
+  description = "The CloudWatch Log Group ARN for the tunnel 1 logs"
+  value       = var.vpn_connection_tunnel1_cloudwatch_log_enabled ? one(aws_vpn_connection.default[*].tunnel1_log_options[0].cloudwatch_log_options[0].log_group_arn) : null
+}
+
 output "vpn_connection_tunnel2_address" {
   description = "The public IP address of the second VPN tunnel"
   value       = one(aws_vpn_connection.default[*].tunnel2_address)
@@ -52,6 +57,11 @@ output "vpn_connection_tunnel2_cgw_inside_address" {
 output "vpn_connection_tunnel2_vgw_inside_address" {
   description = "The RFC 6890 link-local address of the second VPN tunnel (Virtual Private Gateway side)"
   value       = one(aws_vpn_connection.default[*].tunnel2_vgw_inside_address)
+}
+
+output "vpn_connection_tunnel2_log_group_arn" {
+  description = "The CloudWatch Log Group ARN for the tunnel 2 logs"
+  value       = var.vpn_connection_tunnel2_cloudwatch_log_enabled ? one(aws_vpn_connection.default[*].tunnel2_log_options[0].cloudwatch_log_options[0].log_group_arn) : null
 }
 
 output "transit_gateway_attachment_id" {

@@ -208,6 +208,18 @@ variable "vpn_connection_tunnel1_cloudwatch_log_enabled" {
   nullable    = false
 }
 
+variable "vpn_connection_tunnel1_cloudwatch_log_group_arn" {
+  type        = list(string)
+  description = <<-EOT
+    The ARN of the CloudWatch log group to which the logs will be published.
+    If the list is empty and `vpn_connection_tunnel1_cloudwatch_log_enabled` is `true`,
+    the module will create a new log group and use it.
+    If the list is not empty, the module will use the first ARN in the list.
+    EOT
+  default     = []
+  nullable    = false
+}
+
 variable "vpn_connection_tunnel1_cloudwatch_log_output_format" {
   type        = string
   description = "Set log format for the tunnel. Default format is json. Possible values are `json` and `text`"
@@ -326,6 +338,18 @@ variable "vpn_connection_tunnel2_cloudwatch_log_enabled" {
   type        = bool
   description = "Enable or disable VPN tunnel logging feature for the tunnel"
   default     = false
+  nullable    = false
+}
+
+variable "vpn_connection_tunnel2_cloudwatch_log_group_arn" {
+  type        = list(string)
+  description = <<-EOT
+    The ARN of the CloudWatch log group to which the logs will be published.
+    If the list is empty and `vpn_connection_tunnel2_cloudwatch_log_enabled` is `true`,
+    the module will create a new log group and use it.
+    If the list is not empty, the module will use the first ARN in the list.
+    EOT
+  default     = []
   nullable    = false
 }
 

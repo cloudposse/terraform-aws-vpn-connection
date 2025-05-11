@@ -1,7 +1,13 @@
 locals {
   enabled = module.this.enabled
 
-  logs_enabled               = local.enabled && (var.vpn_connection_tunnel1_cloudwatch_log_enabled || var.vpn_connection_tunnel2_cloudwatch_log_enabled)
+  create_log_group = local.enabled && (
+    (var.vpn_connection_tunnel1_cloudwatch_log_enabled && length(var.vpn_connection_tunnel1_cloudwatch_log_group_arn) == 0) ||
+    (var.vpn_connection_tunnel2_cloudwatch_log_enabled && length(var.vpn_connection_tunnel2_cloudwatch_log_group_arn) == 0)
+  )
+  tunnel1_log_group_arn = try(var.vpn_connection_tunnel1_cloudwatch_log_group_arn[0], module.logs.log_group_arn)
+  tunnel2_log_group_arn = try(var.vpn_connection_tunnel2_cloudwatch_log_group_arn[0], module.logs.log_group_arn)
+
   transit_gateway_enabled    = local.enabled && var.transit_gateway_enabled
   transit_gateway_rt_enabled = local.transit_gateway_enabled && var.transit_gateway_route_table_id != null
   vpn_gateway_enabled        = local.enabled && !var.transit_gateway_enabled
@@ -44,7 +50,7 @@ module "logs" {
   source  = "cloudposse/cloudwatch-logs/aws"
   version = "0.6.9"
 
-  enabled           = local.logs_enabled
+  enabled           = local.create_log_group
   iam_role_enabled  = false
   retention_in_days = var.vpn_connection_log_retention_in_days
 
@@ -82,7 +88,7 @@ resource "aws_vpn_connection" "default" {
   tunnel1_log_options {
     cloudwatch_log_options {
       log_enabled       = var.vpn_connection_tunnel1_cloudwatch_log_enabled
-      log_group_arn     = var.vpn_connection_tunnel1_cloudwatch_log_enabled ? module.logs.log_group_arn : null
+      log_group_arn     = var.vpn_connection_tunnel1_cloudwatch_log_enabled ? local.tunnel1_log_group_arn : null
       log_output_format = var.vpn_connection_tunnel1_cloudwatch_log_enabled ? var.vpn_connection_tunnel1_cloudwatch_log_output_format : null
     }
   }
@@ -105,7 +111,7 @@ resource "aws_vpn_connection" "default" {
   tunnel2_log_options {
     cloudwatch_log_options {
       log_enabled       = var.vpn_connection_tunnel2_cloudwatch_log_enabled
-      log_group_arn     = var.vpn_connection_tunnel2_cloudwatch_log_enabled ? module.logs.log_group_arn : null
+      log_group_arn     = var.vpn_connection_tunnel2_cloudwatch_log_enabled ? local.tunnel2_log_group_arn : null
       log_output_format = var.vpn_connection_tunnel2_cloudwatch_log_enabled ? var.vpn_connection_tunnel2_cloudwatch_log_output_format : null
     }
   }
