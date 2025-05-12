@@ -34,6 +34,11 @@ output "vpn_connection_tunnel1_vgw_inside_address" {
   value       = module.vpn_connection.vpn_connection_tunnel1_vgw_inside_address
 }
 
+output "vpn_connection_tunnel1_log_group_arn" {
+  description = "The CloudWatch Log Group ARN for the tunnel 1 logs"
+  value       = module.vpn_connection.vpn_connection_tunnel1_log_group_arn
+}
+
 output "vpn_connection_tunnel2_address" {
   description = "The public IP address of the second VPN tunnel"
   value       = module.vpn_connection.vpn_connection_tunnel2_address
@@ -47,4 +52,14 @@ output "vpn_connection_tunnel2_cgw_inside_address" {
 output "vpn_connection_tunnel2_vgw_inside_address" {
   description = "The RFC 6890 link-local address of the second VPN tunnel (Virtual Private Gateway side)"
   value       = module.vpn_connection.vpn_connection_tunnel2_vgw_inside_address
+}
+
+output "vpn_connection_tunnel2_log_group_arn" {
+  description = "The CloudWatch Log Group ARN for the tunnel 2 logs"
+  value       = module.vpn_connection.vpn_connection_tunnel2_log_group_arn
+}
+
+output "vpn_acceleration_enabled" {
+  description = "Whether the VPN connection is enabled for acceleration"
+  value       = module.vpn_connection.vpn_acceleration_enabled
 }
