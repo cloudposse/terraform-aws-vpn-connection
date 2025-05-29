@@ -3,7 +3,7 @@
 <!-- markdownlint-disable -->
 <a href="https://cpco.io/homepage"><img src="https://github.com/cloudposse/terraform-aws-vpn-connection/blob/main/.github/banner.png?raw=true" alt="Project Banner"/></a><br/>
     <p align="right">
-<a href="https://github.com/cloudposse/terraform-aws-vpn-connection/releases/latest"><img src="https://img.shields.io/github/release/cloudposse/terraform-aws-vpn-connection.svg?style=for-the-badge" alt="Latest Release"/></a><a href="https://github.com/cloudposse/terraform-aws-vpn-connection/commits"><img src="https://img.shields.io/github/last-commit/cloudposse/terraform-aws-vpn-connection.svg?style=for-the-badge" alt="Last Updated"/></a><a href="https://slack.cloudposse.com"><img src="https://slack.cloudposse.com/for-the-badge.svg" alt="Slack Community"/></a></p>
+<a href="https://github.com/cloudposse/terraform-aws-vpn-connection/releases/latest"><img src="https://img.shields.io/github/release/cloudposse/terraform-aws-vpn-connection.svg?style=for-the-badge" alt="Latest Release"/></a><a href="https://github.com/cloudposse/terraform-aws-vpn-connection/commits"><img src="https://img.shields.io/github/last-commit/cloudposse/terraform-aws-vpn-connection.svg?style=for-the-badge" alt="Last Updated"/></a><a href="https://cloudposse.com/slack"><img src="https://slack.cloudposse.com/for-the-badge.svg" alt="Slack Community"/></a></p>
 <!-- markdownlint-restore -->
 
 <!--
@@ -99,18 +99,6 @@ the options that correspond to the kind of attachment point (VPC or TGW) you are
 
 
 
-<!-- markdownlint-disable -->
-## Makefile Targets
-```text
-Available targets:
-
-  help                                Help screen
-  help/all                            Display help for all targets
-  help/short                          This help short screen
-  lint                                Lint terraform code
-
-```
-<!-- markdownlint-restore -->
 <!-- markdownlint-disable -->
 ## Requirements
 
@@ -237,6 +225,11 @@ Available targets:
 | <a name="output_vpn_connection_tunnel2_vgw_inside_address"></a> [vpn\_connection\_tunnel2\_vgw\_inside\_address](#output\_vpn\_connection\_tunnel2\_vgw\_inside\_address) | The RFC 6890 link-local address of the second VPN tunnel (Virtual Private Gateway side) |
 | <a name="output_vpn_gateway_id"></a> [vpn\_gateway\_id](#output\_vpn\_gateway\_id) | Virtual Private Gateway ID |
 <!-- markdownlint-restore -->
+
+
+
+
+
 
 
 ## Related Projects
