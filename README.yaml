@@ -41,7 +41,7 @@ badges:
     url: https://github.com/cloudposse/terraform-aws-vpn-connection/commits
   - name: Slack Community
     image: https://slack.cloudposse.com/for-the-badge.svg
-    url: https://slack.cloudposse.com
+    url: https://cloudposse.com/slack
 
 # List any related terraform modules that this module may be used with or that this module depends on.
 related:
@@ -75,9 +75,9 @@ description: |-
   - Create a Site-to-Site Virtual Private Network (VPN) connection
   - Request automatic route propagation between the VPG and the provided route tables in the VPC
   - If the VPN connection is configured to use static routes, provision a static route between the VPN connection and the CGW
-  
+
   Exactly what it does depends on the input parameters. The module is designed to be flexible and can be used in a variety of scenarios.
-  
+
   - If you supply `customer_gateway_ip_address` and set `transit_gateway_enabled` to `true`, 
     the module will create a CGW, then create a VPN connection, and then assign the connection to
     the Transit Gateway identified by `existing_transit_gateway_id` and the created CGW
@@ -107,8 +107,5 @@ usage: |-
       vpn_connection_static_routes_destinations = ["10.80.1.0/24"]
     }
   ```
-include:
-  - "docs/targets.md"
-  - "docs/terraform.md"
-# Contributors to this project
+include: []
 contributors: []
