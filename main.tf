@@ -10,12 +10,12 @@ locals {
 
   transit_gateway_enabled    = local.enabled && var.transit_gateway_enabled
   transit_gateway_rt_enabled = local.transit_gateway_enabled && var.transit_gateway_route_table_id != null
-  vpn_gateway_enabled        = local.enabled && !var.transit_gateway_enabled
+  vpn_gateway_enabled        = local.enabled && !var.transit_gateway_enabled && var.existing_vpn_gateway_id == null
 
   vpn_gateway_only = var.customer_gateway_ip_address == null
 
   transit_gateway_attachment_id = one(aws_vpn_connection.default[*].transit_gateway_attachment_id)
-  vpn_gateway_id                = one(aws_vpn_gateway.default[*].id)
+  vpn_gateway_id                = local.vpn_gateway_enabled ? one(aws_vpn_gateway.default[*].id) : var.existing_vpn_gateway_id
   customer_gateway_id           = one(aws_customer_gateway.default[*].id)
   customer_gateway_device_name  = var.customer_gateway_device_name == "" ? module.this.id : var.customer_gateway_device_name
   vpn_connection_id             = one(aws_vpn_connection.default[*].id)
