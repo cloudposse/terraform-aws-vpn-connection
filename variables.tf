@@ -17,6 +17,15 @@ variable "vpn_gateway_amazon_side_asn" {
   nullable    = false
 }
 
+variable "existing_vpn_gateway_id" {
+  type        = string
+  description = <<-EOT
+    Existing VPN Gateway ID. If provided the module will use the vpn gateway
+    provided here.
+    EOT
+  default     = null
+}
+
 variable "customer_gateway_device_name" {
   type        = string
   description = <<-EOT
