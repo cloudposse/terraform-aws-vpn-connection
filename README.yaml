@@ -78,11 +78,14 @@ description: |-
 
   Exactly what it does depends on the input parameters. The module is designed to be flexible and can be used in a variety of scenarios.
 
-  - If you supply `customer_gateway_ip_address` and set `transit_gateway_enabled` to `true`, 
+  - If you supply `customer_gateway_ip_address` and set `transit_gateway_enabled` to `true`,
     the module will create a CGW, then create a VPN connection, and then assign the connection to
     the Transit Gateway identified by `existing_transit_gateway_id` and the created CGW
   - If you supply `customer_gateway_ip_address` and set `transit_gateway_enabled` to `false`,
     the module will create a VPG and CGW, then create a VPN connection, and then assign it to the VPG and CGW
+  - If you supply `customer_gateway_ip_address` and set `cloudwan_enabled` to `true`,
+    the module will create a CGW then create a VPN connection, then attach it to the
+    Cloud WAN Core Network identified by `cloudwan_core_network_id`
   - If you do not supply `customer_gateway_ip_address` (set it to `null`) then the module will only create a VPG
 
   The module also provides some options for adding routes to the VPC or TGW route tables. You need to use
