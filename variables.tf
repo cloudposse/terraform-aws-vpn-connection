@@ -414,3 +414,23 @@ variable "vpn_acceleration_enabled" {
   default     = false
   nullable    = false
 }
+
+variable "cloudwan_enabled" {
+  type        = bool
+  description = <<-EOT
+    If `true`, the module will create a CloudWAN attachment for the VPN connection.
+    This allows you to attach an unattached VPN connection to an AWS Cloud WAN Core Network.
+    Requires `cloudwan_core_network_id` to be set.
+    EOT
+  default     = false
+  nullable    = false
+}
+
+variable "cloudwan_core_network_id" {
+  type        = string
+  description = <<-EOT
+    The ID of the Cloud WAN Core Network to attach the VPN connection to.
+    Required if `cloudwan_enabled` is `true`, ignored otherwise.
+    EOT
+  default     = null
+}

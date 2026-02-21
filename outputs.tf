@@ -73,3 +73,18 @@ output "vpn_acceleration_enabled" {
   description = "Whether the VPN connection is enabled for acceleration"
   value       = one(aws_vpn_connection.default[*].enable_acceleration)
 }
+
+output "cloudwan_attachment_id" {
+  description = "The ID of the Cloud WAN VPN attachment"
+  value       = one(aws_networkmanager_site_to_site_vpn_attachment.default[*].id)
+}
+
+output "cloudwan_attachment_arn" {
+  description = "The ARN of the Cloud WAN VPN attachment"
+  value       = one(aws_networkmanager_site_to_site_vpn_attachment.default[*].arn)
+}
+
+output "cloudwan_attachment_segment_name" {
+  description = "The segment name associated with the Cloud WAN VPN attachment"
+  value       = one(aws_networkmanager_site_to_site_vpn_attachment.default[*].segment_name)
+}

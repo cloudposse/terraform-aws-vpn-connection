@@ -10,7 +10,8 @@ locals {
 
   transit_gateway_enabled    = local.enabled && var.transit_gateway_enabled
   transit_gateway_rt_enabled = local.transit_gateway_enabled && var.transit_gateway_route_table_id != null
-  vpn_gateway_enabled        = local.enabled && !var.transit_gateway_enabled && var.existing_vpn_gateway_id == null
+  cloudwan_enabled           = local.enabled && var.cloudwan_enabled
+  vpn_gateway_enabled        = local.enabled && !var.transit_gateway_enabled && !var.cloudwan_enabled && var.existing_vpn_gateway_id == null
 
   vpn_gateway_only = var.customer_gateway_ip_address == null
 
@@ -170,4 +171,14 @@ resource "aws_ec2_transit_gateway_route" "default" {
   destination_cidr_block         = each.value.destination_cidr_block
   transit_gateway_attachment_id  = local.transit_gateway_attachment_id
   transit_gateway_route_table_id = var.transit_gateway_route_table_id
+}
+
+## Cloud WAN VPN Connection Attachments
+# https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/networkmanager_site_to_site_vpn_attachment
+resource "aws_networkmanager_site_to_site_vpn_attachment" "default" {
+  count = local.cloudwan_enabled ? 1 : 0
+
+  core_network_id    = var.cloudwan_core_network_id
+  vpn_connection_arn = one(aws_vpn_connection.default[*].arn)
+  tags               = module.this.tags
 }
