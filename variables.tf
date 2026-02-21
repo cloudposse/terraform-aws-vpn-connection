@@ -434,3 +434,9 @@ variable "cloudwan_core_network_id" {
     EOT
   default     = null
 }
+
+variable "vpn_cloudwan_routing_policy_label" {
+  type        = string
+  description = "Routing policy label for CloudWAN VPN attachment"
+  default     = null
+}

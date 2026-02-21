@@ -178,7 +178,8 @@ resource "aws_ec2_transit_gateway_route" "default" {
 resource "aws_networkmanager_site_to_site_vpn_attachment" "default" {
   count = local.cloudwan_enabled ? 1 : 0
 
-  core_network_id    = var.cloudwan_core_network_id
-  vpn_connection_arn = one(aws_vpn_connection.default[*].arn)
-  tags               = module.this.tags
+  core_network_id      = var.cloudwan_core_network_id
+  vpn_connection_arn   = one(aws_vpn_connection.default[*].arn)
+  routing_policy_label = var.vpn_cloudwan_routing_policy_label
+  tags                 = module.this.tags
 }
