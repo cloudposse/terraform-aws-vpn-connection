@@ -43,11 +43,14 @@ The module can do the following:
 
 Exactly what it does depends on the input parameters. The module is designed to be flexible and can be used in a variety of scenarios.
 
-- If you supply `customer_gateway_ip_address` and set `transit_gateway_enabled` to `true`, 
+- If you supply `customer_gateway_ip_address` and set `transit_gateway_enabled` to `true`,
   the module will create a CGW, then create a VPN connection, and then assign the connection to
   the Transit Gateway identified by `existing_transit_gateway_id` and the created CGW
 - If you supply `customer_gateway_ip_address` and set `transit_gateway_enabled` to `false`,
   the module will create a VPG and CGW, then create a VPN connection, and then assign it to the VPG and CGW
+- If you supply `customer_gateway_ip_address` and set `cloudwan_enabled` to `true`,
+  the module will create a CGW then create a VPN connection, then attach it to the
+  Cloud WAN Core Network identified by `cloudwan_core_network_id`
 - If you do not supply `customer_gateway_ip_address` (set it to `null`) then the module will only create a VPG
 
 The module also provides some options for adding routes to the VPC or TGW route tables. You need to use
@@ -132,6 +135,7 @@ the options that correspond to the kind of attachment point (VPC or TGW) you are
 | [aws_ec2_transit_gateway_route.default](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ec2_transit_gateway_route) | resource |
 | [aws_ec2_transit_gateway_route_table_association.default](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ec2_transit_gateway_route_table_association) | resource |
 | [aws_ec2_transit_gateway_route_table_propagation.default](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ec2_transit_gateway_route_table_propagation) | resource |
+| [aws_networkmanager_site_to_site_vpn_attachment.default](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/networkmanager_site_to_site_vpn_attachment) | resource |
 | [aws_vpn_connection.default](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpn_connection) | resource |
 | [aws_vpn_connection_route.default](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpn_connection_route) | resource |
 | [aws_vpn_gateway.default](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpn_gateway) | resource |
@@ -143,6 +147,8 @@ the options that correspond to the kind of attachment point (VPC or TGW) you are
 |------|-------------|------|---------|:--------:|
 | <a name="input_additional_tag_map"></a> [additional\_tag\_map](#input\_additional\_tag\_map) | Additional key-value pairs to add to each map in `tags_as_list_of_maps`. Not added to `tags` or `id`.<br/>This is for some rare cases where resources want additional configuration of tags<br/>and therefore take a list of maps with tag key, value, and additional configuration. | `map(string)` | `{}` | no |
 | <a name="input_attributes"></a> [attributes](#input\_attributes) | ID element. Additional attributes (e.g. `workers` or `cluster`) to add to `id`,<br/>in the order they appear in the list. New attributes are appended to the<br/>end of the list. The elements of the list are joined by the `delimiter`<br/>and treated as a single ID element. | `list(string)` | `[]` | no |
+| <a name="input_cloudwan_core_network_id"></a> [cloudwan\_core\_network\_id](#input\_cloudwan\_core\_network\_id) | The ID of the Cloud WAN Core Network to attach the VPN connection to.<br/>Required if `cloudwan_enabled` is `true`, ignored otherwise. | `string` | `null` | no |
+| <a name="input_cloudwan_enabled"></a> [cloudwan\_enabled](#input\_cloudwan\_enabled) | If `true`, the module will create a CloudWAN attachment for the VPN connection.<br/>This allows you to attach an unattached VPN connection to an AWS Cloud WAN Core Network.<br/>Requires `cloudwan_core_network_id` to be set. | `bool` | `false` | no |
 | <a name="input_context"></a> [context](#input\_context) | Single object for setting entire context at once.<br/>See description of individual variables for details.<br/>Leave string and numeric variables as `null` to use default value.<br/>Individual variable settings (non-null) override settings in context object,<br/>except for attributes, tags, and additional\_tag\_map, which are merged. | `any` | <pre>{<br/>  "additional_tag_map": {},<br/>  "attributes": [],<br/>  "delimiter": null,<br/>  "descriptor_formats": {},<br/>  "enabled": true,<br/>  "environment": null,<br/>  "id_length_limit": null,<br/>  "label_key_case": null,<br/>  "label_order": [],<br/>  "label_value_case": null,<br/>  "labels_as_tags": [<br/>    "unset"<br/>  ],<br/>  "name": null,<br/>  "namespace": null,<br/>  "regex_replace_chars": null,<br/>  "stage": null,<br/>  "tags": {},<br/>  "tenant": null<br/>}</pre> | no |
 | <a name="input_customer_gateway_bgp_asn"></a> [customer\_gateway\_bgp\_asn](#input\_customer\_gateway\_bgp\_asn) | The Customer Gateway's Border Gateway Protocol (BGP) Autonomous System Number (ASN) | `number` | `65000` | no |
 | <a name="input_customer_gateway_device_name"></a> [customer\_gateway\_device\_name](#input\_customer\_gateway\_device\_name) | The Device Name of the Customer Gateway. Set to `null` to leave unnamed.<br/>WARNING: Changing this value will cause the Customer Gateway to be replaced. | `string` | `""` | no |
@@ -213,6 +219,9 @@ the options that correspond to the kind of attachment point (VPC or TGW) you are
 
 | Name | Description |
 |------|-------------|
+| <a name="output_cloudwan_attachment_arn"></a> [cloudwan\_attachment\_arn](#output\_cloudwan\_attachment\_arn) | The ARN of the Cloud WAN VPN attachment |
+| <a name="output_cloudwan_attachment_id"></a> [cloudwan\_attachment\_id](#output\_cloudwan\_attachment\_id) | The ID of the Cloud WAN VPN attachment |
+| <a name="output_cloudwan_attachment_segment_name"></a> [cloudwan\_attachment\_segment\_name](#output\_cloudwan\_attachment\_segment\_name) | The segment name associated with the Cloud WAN VPN attachment |
 | <a name="output_customer_gateway_device_name"></a> [customer\_gateway\_device\_name](#output\_customer\_gateway\_device\_name) | Customer Gateway Device Name |
 | <a name="output_customer_gateway_id"></a> [customer\_gateway\_id](#output\_customer\_gateway\_id) | Customer Gateway ID |
 | <a name="output_transit_gateway_attachment_id"></a> [transit\_gateway\_attachment\_id](#output\_transit\_gateway\_attachment\_id) | The ID of the transit gateway attachment for the VPN connection (if a TGW connection) |
@@ -395,7 +404,7 @@ All other trademarks referenced herein are the property of their respective owne
 
 
 ---
-Copyright © 2017-2025 [Cloud Posse, LLC](https://cpco.io/copyright)
+Copyright © 2017-2026 [Cloud Posse, LLC](https://cpco.io/copyright)
 
 
 <a href="https://cloudposse.com/readme/footer/link?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-aws-vpn-connection&utm_content=readme_footer_link"><img alt="README footer" src="https://cloudposse.com/readme/footer/img"/></a>
