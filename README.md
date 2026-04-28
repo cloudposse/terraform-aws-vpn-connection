@@ -109,27 +109,27 @@ the options that correspond to the kind of attachment point (VPC or TGW) you are
 ## Requirements
 
 | Name | Version |
-|------|---------|
+| ---- | ------- |
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3.0 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 5.53.0 |
 
 ## Providers
 
 | Name | Version |
-|------|---------|
+| ---- | ------- |
 | <a name="provider_aws"></a> [aws](#provider\_aws) | >= 5.53.0 |
 
 ## Modules
 
 | Name | Source | Version |
-|------|--------|---------|
+| ---- | ------ | ------- |
 | <a name="module_logs"></a> [logs](#module\_logs) | cloudposse/cloudwatch-logs/aws | 0.6.9 |
 | <a name="module_this"></a> [this](#module\_this) | cloudposse/label/null | 0.25.0 |
 
 ## Resources
 
 | Name | Type |
-|------|------|
+| ---- | ---- |
 | [aws_customer_gateway.default](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/customer_gateway) | resource |
 | [aws_ec2_tag.default](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ec2_tag) | resource |
 | [aws_ec2_transit_gateway_route.default](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ec2_transit_gateway_route) | resource |
@@ -144,7 +144,7 @@ the options that correspond to the kind of attachment point (VPC or TGW) you are
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
+| ---- | ----------- | ---- | ------- | :------: |
 | <a name="input_additional_tag_map"></a> [additional\_tag\_map](#input\_additional\_tag\_map) | Additional key-value pairs to add to each map in `tags_as_list_of_maps`. Not added to `tags` or `id`.<br/>This is for some rare cases where resources want additional configuration of tags<br/>and therefore take a list of maps with tag key, value, and additional configuration. | `map(string)` | `{}` | no |
 | <a name="input_attributes"></a> [attributes](#input\_attributes) | ID element. Additional attributes (e.g. `workers` or `cluster`) to add to `id`,<br/>in the order they appear in the list. New attributes are appended to the<br/>end of the list. The elements of the list are joined by the `delimiter`<br/>and treated as a single ID element. | `list(string)` | `[]` | no |
 | <a name="input_cloudwan_core_network_id"></a> [cloudwan\_core\_network\_id](#input\_cloudwan\_core\_network\_id) | The ID of the Cloud WAN Core Network to attach the VPN connection to.<br/>Required if `cloudwan_enabled` is `true`, ignored otherwise. | `string` | `null` | no |
@@ -185,6 +185,7 @@ the options that correspond to the kind of attachment point (VPC or TGW) you are
 | <a name="input_vpn_connection_tunnel1_cloudwatch_log_group_arn"></a> [vpn\_connection\_tunnel1\_cloudwatch\_log\_group\_arn](#input\_vpn\_connection\_tunnel1\_cloudwatch\_log\_group\_arn) | The ARN of the CloudWatch log group to which the logs will be published.<br/>If the list is empty and `vpn_connection_tunnel1_cloudwatch_log_enabled` is `true`,<br/>the module will create a new log group and use it.<br/>If the list is not empty, the module will use the first ARN in the list. | `list(string)` | `[]` | no |
 | <a name="input_vpn_connection_tunnel1_cloudwatch_log_output_format"></a> [vpn\_connection\_tunnel1\_cloudwatch\_log\_output\_format](#input\_vpn\_connection\_tunnel1\_cloudwatch\_log\_output\_format) | Set log format for the tunnel. Default format is json. Possible values are `json` and `text` | `string` | `"json"` | no |
 | <a name="input_vpn_connection_tunnel1_dpd_timeout_action"></a> [vpn\_connection\_tunnel1\_dpd\_timeout\_action](#input\_vpn\_connection\_tunnel1\_dpd\_timeout\_action) | The action to take after DPD timeout occurs for the first VPN tunnel.<br/>Specify `restart` to restart the IKE initiation. Specify `clear` to end the IKE session.<br/>Valid values are `clear` \| `none` \| `restart` | `string` | `"clear"` | no |
+| <a name="input_vpn_connection_tunnel1_dpd_timeout_seconds"></a> [vpn\_connection\_tunnel1\_dpd\_timeout\_seconds](#input\_vpn\_connection\_tunnel1\_dpd\_timeout\_seconds) | The number of seconds after which a DPD timeout occurs for the first VPN tunnel. <br/>Valid value is equal or higher than 30 | `string` | `null` | no |
 | <a name="input_vpn_connection_tunnel1_ike_versions"></a> [vpn\_connection\_tunnel1\_ike\_versions](#input\_vpn\_connection\_tunnel1\_ike\_versions) | The IKE versions that are permitted for the first VPN tunnel. Valid values are `ikev1` \| `ikev2` | `list(string)` | `[]` | no |
 | <a name="input_vpn_connection_tunnel1_inside_cidr"></a> [vpn\_connection\_tunnel1\_inside\_cidr](#input\_vpn\_connection\_tunnel1\_inside\_cidr) | The CIDR block of the inside IP addresses for the first VPN tunnel | `string` | `null` | no |
 | <a name="input_vpn_connection_tunnel1_phase1_dh_group_numbers"></a> [vpn\_connection\_tunnel1\_phase1\_dh\_group\_numbers](#input\_vpn\_connection\_tunnel1\_phase1\_dh\_group\_numbers) | List of one or more Diffie-Hellman group numbers that are permitted for the first VPN tunnel for phase 1 IKE negotiations.<br/>Valid values are 2 \| 14 \| 15 \| 16 \| 17 \| 18 \| 19 \| 20 \| 21 \| 22 \| 23 \| 24 | `list(string)` | `[]` | no |
@@ -196,11 +197,13 @@ the options that correspond to the kind of attachment point (VPC or TGW) you are
 | <a name="input_vpn_connection_tunnel1_phase2_integrity_algorithms"></a> [vpn\_connection\_tunnel1\_phase2\_integrity\_algorithms](#input\_vpn\_connection\_tunnel1\_phase2\_integrity\_algorithms) | One or more integrity algorithms that are permitted for the first VPN tunnel for phase 2 IKE negotiations.<br/>Valid values are SHA1 \| SHA2-256 \| SHA2-384 \| SHA2-512 | `list(string)` | `[]` | no |
 | <a name="input_vpn_connection_tunnel1_phase2_lifetime_seconds"></a> [vpn\_connection\_tunnel1\_phase2\_lifetime\_seconds](#input\_vpn\_connection\_tunnel1\_phase2\_lifetime\_seconds) | The lifetime for phase 2 of the IKE negotiation for the first VPN tunnel, in seconds. Valid value is between 900 and 3600 | `string` | `"3600"` | no |
 | <a name="input_vpn_connection_tunnel1_preshared_key"></a> [vpn\_connection\_tunnel1\_preshared\_key](#input\_vpn\_connection\_tunnel1\_preshared\_key) | The preshared key of the first VPN tunnel. The preshared key must be between 8 and 64 characters in length and cannot start with zero. Allowed characters are alphanumeric characters, periods(.) and underscores(\_) | `string` | `null` | no |
+| <a name="input_vpn_connection_tunnel1_rekey_margin_time_seconds"></a> [vpn\_connection\_tunnel1\_rekey\_margin\_time\_seconds](#input\_vpn\_connection\_tunnel1\_rekey\_margin\_time\_seconds) | The margin time, in seconds, before the phase 2 lifetime expires, during which the AWS side of the first VPN connection performs an IKE rekey. | `string` | `null` | no |
 | <a name="input_vpn_connection_tunnel1_startup_action"></a> [vpn\_connection\_tunnel1\_startup\_action](#input\_vpn\_connection\_tunnel1\_startup\_action) | The action to take when the establishing the tunnel for the first VPN connection. By default, your customer gateway device must initiate the IKE negotiation and bring up the tunnel. Specify start for AWS to initiate the IKE negotiation. Valid values are `add` \| `start` | `string` | `"add"` | no |
 | <a name="input_vpn_connection_tunnel2_cloudwatch_log_enabled"></a> [vpn\_connection\_tunnel2\_cloudwatch\_log\_enabled](#input\_vpn\_connection\_tunnel2\_cloudwatch\_log\_enabled) | Enable or disable VPN tunnel logging feature for the tunnel | `bool` | `false` | no |
 | <a name="input_vpn_connection_tunnel2_cloudwatch_log_group_arn"></a> [vpn\_connection\_tunnel2\_cloudwatch\_log\_group\_arn](#input\_vpn\_connection\_tunnel2\_cloudwatch\_log\_group\_arn) | The ARN of the CloudWatch log group to which the logs will be published.<br/>If the list is empty and `vpn_connection_tunnel2_cloudwatch_log_enabled` is `true`,<br/>the module will create a new log group and use it.<br/>If the list is not empty, the module will use the first ARN in the list. | `list(string)` | `[]` | no |
 | <a name="input_vpn_connection_tunnel2_cloudwatch_log_output_format"></a> [vpn\_connection\_tunnel2\_cloudwatch\_log\_output\_format](#input\_vpn\_connection\_tunnel2\_cloudwatch\_log\_output\_format) | Set log format for the tunnel. Default format is json. Possible values are `json` and `text` | `string` | `"json"` | no |
 | <a name="input_vpn_connection_tunnel2_dpd_timeout_action"></a> [vpn\_connection\_tunnel2\_dpd\_timeout\_action](#input\_vpn\_connection\_tunnel2\_dpd\_timeout\_action) | The action to take after DPD timeout occurs for the second VPN tunnel. Specify restart to restart the IKE initiation. Specify clear to end the IKE session. Valid values are `clear` \| `none` \| `restart` | `string` | `"clear"` | no |
+| <a name="input_vpn_connection_tunnel2_dpd_timeout_seconds"></a> [vpn\_connection\_tunnel2\_dpd\_timeout\_seconds](#input\_vpn\_connection\_tunnel2\_dpd\_timeout\_seconds) | The number of seconds after which a DPD timeout occurs for the first VPN tunnel. <br/>Valid value is equal or higher than 30 | `string` | `null` | no |
 | <a name="input_vpn_connection_tunnel2_ike_versions"></a> [vpn\_connection\_tunnel2\_ike\_versions](#input\_vpn\_connection\_tunnel2\_ike\_versions) | The IKE versions that are permitted for the second VPN tunnel. Valid values are `ikev1` \| `ikev2` | `list(string)` | `[]` | no |
 | <a name="input_vpn_connection_tunnel2_inside_cidr"></a> [vpn\_connection\_tunnel2\_inside\_cidr](#input\_vpn\_connection\_tunnel2\_inside\_cidr) | The CIDR block of the inside IP addresses for the second VPN tunnel | `string` | `null` | no |
 | <a name="input_vpn_connection_tunnel2_phase1_dh_group_numbers"></a> [vpn\_connection\_tunnel2\_phase1\_dh\_group\_numbers](#input\_vpn\_connection\_tunnel2\_phase1\_dh\_group\_numbers) | List of one or more Diffie-Hellman group numbers that are permitted for the first VPN tunnel for phase 1 IKE negotiations.<br/>Valid values are 2 \| 14 \| 15 \| 16 \| 17 \| 18 \| 19 \| 20 \| 21 \| 22 \| 23 \| 24 | `list(string)` | `[]` | no |
@@ -212,13 +215,14 @@ the options that correspond to the kind of attachment point (VPC or TGW) you are
 | <a name="input_vpn_connection_tunnel2_phase2_integrity_algorithms"></a> [vpn\_connection\_tunnel2\_phase2\_integrity\_algorithms](#input\_vpn\_connection\_tunnel2\_phase2\_integrity\_algorithms) | One or more integrity algorithms that are permitted for the second VPN tunnel for phase 2 IKE negotiations.<br/>Valid values are SHA1 \| SHA2-256 \| SHA2-384 \| SHA2-512 | `list(string)` | `[]` | no |
 | <a name="input_vpn_connection_tunnel2_phase2_lifetime_seconds"></a> [vpn\_connection\_tunnel2\_phase2\_lifetime\_seconds](#input\_vpn\_connection\_tunnel2\_phase2\_lifetime\_seconds) | The lifetime for phase 2 of the IKE negotiation for the second VPN tunnel, in seconds. Valid value is between 900 and 3600 | `string` | `"3600"` | no |
 | <a name="input_vpn_connection_tunnel2_preshared_key"></a> [vpn\_connection\_tunnel2\_preshared\_key](#input\_vpn\_connection\_tunnel2\_preshared\_key) | The preshared key of the second VPN tunnel. The preshared key must be between 8 and 64 characters in length and cannot start with zero. Allowed characters are alphanumeric characters, periods(.) and underscores(\_) | `string` | `null` | no |
+| <a name="input_vpn_connection_tunnel2_rekey_margin_time_seconds"></a> [vpn\_connection\_tunnel2\_rekey\_margin\_time\_seconds](#input\_vpn\_connection\_tunnel2\_rekey\_margin\_time\_seconds) | The margin time, in seconds, before the phase 2 lifetime expires, during which the AWS side of the first VPN connection performs an IKE rekey. | `string` | `null` | no |
 | <a name="input_vpn_connection_tunnel2_startup_action"></a> [vpn\_connection\_tunnel2\_startup\_action](#input\_vpn\_connection\_tunnel2\_startup\_action) | The action to take when the establishing the tunnel for the second VPN connection. By default, your customer gateway device must initiate the IKE negotiation and bring up the tunnel. Specify start for AWS to initiate the IKE negotiation. Valid values are `add` \| `start` | `string` | `"add"` | no |
 | <a name="input_vpn_gateway_amazon_side_asn"></a> [vpn\_gateway\_amazon\_side\_asn](#input\_vpn\_gateway\_amazon\_side\_asn) | The Autonomous System Number (ASN) for the Amazon side of the VPN gateway.<br/>If you don't specify an ASN, the Virtual Private Gateway is created with the default ASN. | `number` | `64512` | no |
 
 ## Outputs
 
 | Name | Description |
-|------|-------------|
+| ---- | ----------- |
 | <a name="output_cloudwan_attachment_arn"></a> [cloudwan\_attachment\_arn](#output\_cloudwan\_attachment\_arn) | The ARN of the Cloud WAN VPN attachment |
 | <a name="output_cloudwan_attachment_id"></a> [cloudwan\_attachment\_id](#output\_cloudwan\_attachment\_id) | The ID of the Cloud WAN VPN attachment |
 | <a name="output_cloudwan_attachment_segment_name"></a> [cloudwan\_attachment\_segment\_name](#output\_cloudwan\_attachment\_segment\_name) | The segment name associated with the Cloud WAN VPN attachment |
