@@ -110,6 +110,15 @@ variable "vpn_connection_tunnel1_dpd_timeout_action" {
   nullable    = false
 }
 
+variable "vpn_connection_tunnel1_dpd_timeout_seconds" {
+  type        = string
+  description = <<-EOT
+    The number of seconds after which a DPD timeout occurs for the first VPN tunnel. 
+    Valid value is equal or higher than 30
+    EOT
+  default     = null
+}
+
 variable "vpn_connection_tunnel1_ike_versions" {
   type        = list(string)
   description = "The IKE versions that are permitted for the first VPN tunnel. Valid values are `ikev1` | `ikev2`"
@@ -197,6 +206,12 @@ variable "vpn_connection_tunnel1_phase2_lifetime_seconds" {
   nullable    = false
 }
 
+variable "vpn_connection_tunnel1_rekey_margin_time_seconds" {
+  type        = string
+  description = "The margin time, in seconds, before the phase 2 lifetime expires, during which the AWS side of the first VPN connection performs an IKE rekey."
+  default     = null
+}
+
 variable "vpn_connection_tunnel1_preshared_key" {
   type        = string
   description = "The preshared key of the first VPN tunnel. The preshared key must be between 8 and 64 characters in length and cannot start with zero. Allowed characters are alphanumeric characters, periods(.) and underscores(_)"
@@ -241,6 +256,15 @@ variable "vpn_connection_tunnel2_dpd_timeout_action" {
   description = "The action to take after DPD timeout occurs for the second VPN tunnel. Specify restart to restart the IKE initiation. Specify clear to end the IKE session. Valid values are `clear` | `none` | `restart`"
   default     = "clear"
   nullable    = false
+}
+
+variable "vpn_connection_tunnel2_dpd_timeout_seconds" {
+  type        = string
+  description = <<-EOT
+    The number of seconds after which a DPD timeout occurs for the first VPN tunnel. 
+    Valid value is equal or higher than 30
+    EOT
+  default     = null
 }
 
 variable "vpn_connection_tunnel2_ike_versions" {
@@ -328,6 +352,11 @@ variable "vpn_connection_tunnel2_phase2_lifetime_seconds" {
   description = "The lifetime for phase 2 of the IKE negotiation for the second VPN tunnel, in seconds. Valid value is between 900 and 3600"
   default     = "3600"
   nullable    = false
+}
+variable "vpn_connection_tunnel2_rekey_margin_time_seconds" {
+  type        = string
+  description = "The margin time, in seconds, before the phase 2 lifetime expires, during which the AWS side of the first VPN connection performs an IKE rekey."
+  default     = null
 }
 
 variable "vpn_connection_tunnel2_preshared_key" {

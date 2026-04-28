@@ -71,11 +71,12 @@ resource "aws_vpn_connection" "default" {
   local_ipv4_network_cidr  = var.vpn_connection_local_ipv4_network_cidr
   remote_ipv4_network_cidr = var.vpn_connection_remote_ipv4_network_cidr
 
-  tunnel1_dpd_timeout_action = var.vpn_connection_tunnel1_dpd_timeout_action
-  tunnel1_ike_versions       = var.vpn_connection_tunnel1_ike_versions
-  tunnel1_inside_cidr        = var.vpn_connection_tunnel1_inside_cidr
-  tunnel1_preshared_key      = var.vpn_connection_tunnel1_preshared_key
-  tunnel1_startup_action     = var.vpn_connection_tunnel1_startup_action
+  tunnel1_dpd_timeout_action  = var.vpn_connection_tunnel1_dpd_timeout_action
+  tunnel1_dpd_timeout_seconds = var.vpn_connection_tunnel1_dpd_timeout_seconds
+  tunnel1_ike_versions        = var.vpn_connection_tunnel1_ike_versions
+  tunnel1_inside_cidr         = var.vpn_connection_tunnel1_inside_cidr
+  tunnel1_preshared_key       = var.vpn_connection_tunnel1_preshared_key
+  tunnel1_startup_action      = var.vpn_connection_tunnel1_startup_action
 
   tunnel1_phase1_dh_group_numbers      = var.vpn_connection_tunnel1_phase1_dh_group_numbers
   tunnel1_phase2_dh_group_numbers      = var.vpn_connection_tunnel1_phase2_dh_group_numbers
@@ -85,6 +86,7 @@ resource "aws_vpn_connection" "default" {
   tunnel1_phase2_integrity_algorithms  = var.vpn_connection_tunnel1_phase2_integrity_algorithms
   tunnel1_phase1_lifetime_seconds      = var.vpn_connection_tunnel1_phase1_lifetime_seconds
   tunnel1_phase2_lifetime_seconds      = var.vpn_connection_tunnel1_phase2_lifetime_seconds
+  tunnel1_rekey_margin_time_seconds    = var.vpn_connection_tunnel1_rekey_margin_time_seconds
 
   tunnel1_log_options {
     cloudwatch_log_options {
@@ -94,11 +96,12 @@ resource "aws_vpn_connection" "default" {
     }
   }
 
-  tunnel2_dpd_timeout_action = var.vpn_connection_tunnel2_dpd_timeout_action
-  tunnel2_ike_versions       = var.vpn_connection_tunnel2_ike_versions
-  tunnel2_inside_cidr        = var.vpn_connection_tunnel2_inside_cidr
-  tunnel2_preshared_key      = var.vpn_connection_tunnel2_preshared_key
-  tunnel2_startup_action     = var.vpn_connection_tunnel2_startup_action
+  tunnel2_dpd_timeout_action  = var.vpn_connection_tunnel2_dpd_timeout_action
+  tunnel2_dpd_timeout_seconds = var.vpn_connection_tunnel2_dpd_timeout_seconds
+  tunnel2_ike_versions        = var.vpn_connection_tunnel2_ike_versions
+  tunnel2_inside_cidr         = var.vpn_connection_tunnel2_inside_cidr
+  tunnel2_preshared_key       = var.vpn_connection_tunnel2_preshared_key
+  tunnel2_startup_action      = var.vpn_connection_tunnel2_startup_action
 
   tunnel2_phase1_dh_group_numbers      = var.vpn_connection_tunnel2_phase1_dh_group_numbers
   tunnel2_phase2_dh_group_numbers      = var.vpn_connection_tunnel2_phase2_dh_group_numbers
@@ -108,6 +111,7 @@ resource "aws_vpn_connection" "default" {
   tunnel2_phase2_integrity_algorithms  = var.vpn_connection_tunnel2_phase2_integrity_algorithms
   tunnel2_phase1_lifetime_seconds      = var.vpn_connection_tunnel2_phase1_lifetime_seconds
   tunnel2_phase2_lifetime_seconds      = var.vpn_connection_tunnel2_phase2_lifetime_seconds
+  tunnel2_rekey_margin_time_seconds    = var.vpn_connection_tunnel2_rekey_margin_time_seconds
 
   tunnel2_log_options {
     cloudwatch_log_options {
